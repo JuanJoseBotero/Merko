@@ -37,7 +37,7 @@ export default function Catalog() {
           <div className='bg-white p-8 rounded-2xl shadow flex flex-col justify-between gap-6' key={prompt.title}>
             <h2 className='heading-2'>{prompt.title}</h2>
             <p className='body'>{prompt.description}</p>
-            <Link className='main-button ' to={"/s"}>Select</Link>
+            <Link className='main-button ' to={"/prompt-customization"} state={{ prompt }}> Select</Link>
           </div>
         ))}
       </div>

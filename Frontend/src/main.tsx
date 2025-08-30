@@ -4,6 +4,7 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import Catalog from './pages/Catalog'
+import PromptCustomization from './pages/PromptCustomization'
 import App from './App'
 import { Link } from 'react-router-dom' 
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       { // Pagina del catalogo de analisis
         path: '/catalog',
         element: <Catalog/> 
+      },
+      {
+        path: '/prompt-customization',
+        element: <PromptCustomization/>
       },
     ],
     ErrorBoundary: () => {
