@@ -1,8 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
+import './css/index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomePage from './pages/HomePage'
+import Catalog from './pages/Catalog'
+import PromptList from './pages/PromptList'
+import PromptParameterization from './pages/PromptParameterization'
 import App from './App'
 import { Link } from 'react-router-dom' 
 
@@ -14,6 +17,18 @@ const router = createBrowserRouter([
       { // Pagina principal
         path: '/',
         element: <HomePage/>
+      },
+      { // Pagina del catalogo de analisis
+        path: '/catalog',
+        element: <Catalog/> 
+      },
+      {
+        path: '/catalog/prompt-list',
+        element: <PromptList/>
+      },
+      {
+        path: '/catalog/prompt-list/prompt-parameterization',
+        element: <PromptParameterization/>
       },
     ],
     ErrorBoundary: () => {

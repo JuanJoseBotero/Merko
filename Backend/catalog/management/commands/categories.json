@@ -1,0 +1,26 @@
+[
+  {
+    "name": "🧭  Import Analysis",
+    "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions."
+  },
+  {
+    "name": "📈  Demand Analysis",
+    "description": "Analyze market behavior to predict trends, anticipate changes, and improve planning accuracy."
+  },
+  {
+    "name": "🚀  Growth Opportunities",
+    "description": "Identify new customers, categories, or markets with the potential to strategically scale your business."
+  },
+  {
+    "name": "👥 Customer Analysis",
+    "description": "Segment your customers, identify churn risks, and understand how they make purchasing decisions."
+  },
+  {
+    "name": "🏁 Competitive Analysis",
+    "description": "Gain key insights about your competitors: capabilities, investments, strategies, and market presence."
+  },
+  {
+    "name": "💰 Financial Analysis",
+    "description": "Interpret financial reports and find correlations between economic results and market movements."
+  }
+]

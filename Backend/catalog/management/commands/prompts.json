@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Example Analysis",
+    "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
+    "category": "🧭  Import Analysis",
+    "prompt_template": "Provide an analysis of {{product}} imports to {{country}}, including origin countries, main importers, volumes, and logistical conditions.",
+    "variables": {"product": "", "country": ""}
+  }
+]
