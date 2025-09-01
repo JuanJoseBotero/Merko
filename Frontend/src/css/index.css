@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-firstGray: #F6F6F6;
+}
+
+
+
+/* -------------------- typography -------------------- */
+
+.heading-1 {
+  @apply text-2xl md:text-4xl font-bold;
+}
+
+.heading-2 {
+  @apply text-xl md:text-3xl font-semibold;
+}
+
+.heading-3 {
+  @apply text-lg md:text-2xl font-medium;
+}
+
+.heading-4 {
+  @apply text-base md:text-lg font-semibold;
+}
+
+.body {
+  @apply text-base md:text-lg text-gray-800;
+}
+
+.price {
+  @apply text-lg md:text-xl font-semibold text-green-600;
+}
+
+.button-text {
+  @apply text-sm md:text-base font-medium;
+}
+
+.caption {
+  @apply text-xs md:text-sm text-gray-500;
+}
+
+/* -------------------- global styles -------------------- */
+
+body {
+  background-color: #f6f6f6;
+  position: relative;
+  overflow: hidden;
+}
+
+/* -------------------- button styles -------------------- */
+
+.main-button {
+  @apply  text-white font-bold py-3 px-5 rounded-xl w-fit cursor-pointer;
+  background-color: #2072B3;
+}
+
+.background-color-home {
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(
+    125% 125% at 50% 90%,
+    #ffffff 40%,
+    #6ebcfc 150%
+  );
+}
+
+.cancel-button {
+  @apply font-bold px-5 py-3 rounded-xl border border-black/40 transition w-fit cursor-pointer;
+}
+
+/* -------------------- responsive styles -------------------- */
+
+.resposive-big-container {
+  @apply p-10 pt-20 sm:p-20 sm:pt-30 xl:px-50
+}
+
+.responsive-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4;
+}
+
+
