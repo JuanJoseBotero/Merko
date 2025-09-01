@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import '../css/PromptParameterization.css';
 
@@ -10,7 +10,8 @@ interface Prompt {
   variables: Record<string, string>;
 }
 
-const PromptParameterizationPage: React.FC = () => {
+export default function PromptParameterizationPage() {
+
   const location = useLocation();
   const navigate = useNavigate();
   const { prompt, categoryName } = location.state as {
@@ -62,12 +63,10 @@ const PromptParameterizationPage: React.FC = () => {
 
   return (
     <div className="resposive-big-container">
-      <h1 className="heading-1">{categoryName} / {prompt.title}</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-
+      <h1 className="heading-2">{categoryName} / {prompt.title}</h1>
+      <div className="flex flex-wrap gap-2 mt-4 max-h-dvh">
         {/* Variables */}
-        <div className="space-y-5 border rounded-lg border-black/10 p-2 responsive-variables">
+        <div className="space-y-3 border rounded-lg border-black/10 p-2 responsive-variables">
           {Object.keys(prompt.variables).map((key) => (
             <div key={key}>
               <label className="block heading-4 mb-2 capitalize">{key}</label>
@@ -83,8 +82,8 @@ const PromptParameterizationPage: React.FC = () => {
         </div>
 
         {/* Preview */}
-        <div className="rounded-2xl p-6 border border-black/10">
-          <h2 className="heading-2 mb-4">Prompt Preview</h2>
+        <div className="rounded-lg p-6 border border-black/10 responsive-preview">
+          <h2 className="heading-3 mb-4">Prompt Preview</h2>
             <p className="body whitespace-pre-line border rounded-lg border-black/10 p-2">
               {prompt.prompt_template.split(/({{.*?}})/g).map((part, idx) => {
               const match = part.match(/{{(.*?)}}/);
@@ -97,7 +96,7 @@ const PromptParameterizationPage: React.FC = () => {
               })}
             </p>
             <div className="mt-8 mb-4">
-              <label className="heading-3">Additional Information</label>
+              <label className="heading-4">Additional Information</label>
               <textarea
                 value={additionalInfo}
                 onChange={(e) => setAdditionalInfo(e.target.value)}
@@ -130,4 +129,3 @@ const PromptParameterizationPage: React.FC = () => {
   );
 };
 
-export default PromptParameterizationPage;
