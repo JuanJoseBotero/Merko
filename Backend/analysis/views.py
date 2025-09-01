@@ -37,12 +37,6 @@ def request_information_for_agent(prompt: str, prompt_params: dict)->dict:
 prompt_template = """Analyze the market for {product_category} and provide a detailed breakdown
 of the top {top_X_number} major importers over the last {time_period}. For each importer, identify the specific product 
 types they import within the category {category} The metric to use is {metric}."""
-"""
-
-
-Output Instructions:
-
-Deliver the output as a dictionary where the keys are the importer names and the values are nested objects containing 'product_types', 'import_volume', and 'import_value'. This format will be used to generate a bar diagram."""
 
 prompt_parameters = {
     "product_category": "glass containers",
