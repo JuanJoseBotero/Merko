@@ -21,7 +21,7 @@ class Command(BaseCommand):
             description = prompt.get('description', '')
             category_name = prompt.get('category')
             prompt_template = prompt.get('prompt_template')
-            variables = prompt.get('variables', [])
+            variables = prompt.get('variables', {})
 
             # Buscar categoría si existe
             category = None

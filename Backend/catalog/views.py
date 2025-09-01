@@ -1,38 +1,31 @@
-from django.shortcuts import render
+from rest_framework import generics, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-from .models import Prompt
-from .serializers import PromptSerializer
-from catalog.services import PromptService
+from .models import Prompt, Category
+from .serializers import PromptSerializer, CategorySerializer
 
-@api_view(["GET"])
-def get_prompts(request):
-    prompts = Prompt.objects.all()
-    serializer = PromptSerializer(prompts, many=True)
-    return Response(serializer.data)
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
-class PromptDetailAPIView(APIView):
-    def get(self, request, pk):
-        try:
-            prompt = Prompt.objects.get(pk=pk)
-            serializer = PromptSerializer(prompt)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Prompt.DoesNotExist:
-            return Response({"error": "Prompt not found"}, status=status.HTTP_404_NOT_FOUND)
+class PromptListAPIView(generics.ListAPIView):
+    serializer_class = PromptSerializer
+    def get_queryset(self):
+        queryset = Prompt.objects.all()
+        category_id = self.request.query_params.get("category", None)
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        return queryset
 
-class PromptPreviewAPIView(APIView):
+class PromptDetailAPIView(generics.RetrieveAPIView):
+    queryset = Prompt.objects.all()
+    serializer_class = PromptSerializer
+
+class RunAnalysisAPIView(APIView):
     def post(self, request):
-        prompt_id = request.data.get("prompt_id")
-        parameters = request.data.get("parameters", {})
+        prompt = request.data.get("prompt")
+        params = request.data.get("params", {})
 
-        try:
-            prompt = Prompt.objects.get(id=prompt_id)
-            preview = PromptService.render_message(prompt.prompt_template, parameters)
-            return Response({
-                "prompt_id": prompt.id,
-                "preview": preview
-            }, status=status.HTTP_200_OK)
-        except Prompt.DoesNotExist:
-            return Response({"error": "Prompt not found"}, status=status.HTTP_404_NOT_FOUND)
+        result = f"Running analysis with: {prompt}, params: {params}"
+
+        return Response({"result": result}, status=status.HTTP_200_OK)

@@ -1,0 +1,7 @@
+.responsive-variables {
+  @apply w-1/2;
+}
+
+.responsive-preview {
+  @apply w-;
+}
