@@ -1,9 +1,27 @@
 [
   {
-    "title": "Example Analysis",
+    "title": "Import and Volume Analysis",
     "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
-    "category": "🧭  Import Analysis",
-    "prompt_template": "Provide an analysis of {{product}} imports to {{country}}, including origin countries, main importers, volumes, and logistical conditions.",
-    "variables": {"product": "", "country": ""}
+    "category": "Import Analysis",
+    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}} and the corresponding import {{metric}}",
+    "output_specification":"Deliver the output as a dictionary with two main keys: 'importers' — a dictionary where the keys are importer names and the values are nested objects containing 'product_types', 'import_volume', and 'import_value'; and 'timestamp' — the year in which the information was obtained.",
+    "variables": {"product_type": "", "top_x_number": "","time_period": "","category": "","metric": ""}
+  },
+  {
+    "title": "Distributor Dynamics and Customer Relationships",
+    "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
+    "category": "Import Analysis",
+    "prompt_template": "Using the data on the importer {{importer_name}}, analyze their distributor dynamics. Identify their key relationships, the mix of their customers (by {{segment}}), and the proportion of their sales that come from imported products versus locally produced goods. Additionally, assess which of these distributor customers could be potential customers for our company, {{client_company_name}}, based on the {{product_or_service_provided}}.",
+    "output_specification":"Present the analysis in a structured JSON format. The JSON should include a main object for the distributor, with nested objects for 'customer_segments' (as a percentage breakdown), 'import_vs_local_ratio', and a list of 'potential_customers' with a brief justification for each at the end, add a 'timestamp' key with the year the information was obtained.",
+    "variables": {"importer_name": "", "segment": "","client_company_name": "","product_or_service_provided": ""}
+  },
+  {
+    "title": "Granular Competitive and Market Intelligence",
+    "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
+    "category": "Import Analysis",
+    "prompt_template": "Provide granular market intelligence for {{product_type}} in the {{geographical_region}} market. Identify and list key competitors, detailing their customer base, production capacity, and geographical location. In addition, identify the specific product attributes that are most in-demand (e.g., 'color', 'work family', 'material density') and list the top {{top_x_number}} customers for each competitor at the end, add a 'timestamp' key with the year the information was obtained.",
+    "output_specification":"The output should be a dictionary with keys for 'competitors' and 'market_trends'. The 'competitors' key should contain a list of objects, each representing a competitor with details on their customers, capacity, and location. The 'market_trends' key should contain a list of objects detailing key product attributes and their demand.",
+    "variables": {"product_type": "", "geographical_region": "","top_x_number": ""}
   }
+  
 ]

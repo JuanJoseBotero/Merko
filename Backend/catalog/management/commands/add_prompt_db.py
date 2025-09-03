@@ -21,27 +21,32 @@ class Command(BaseCommand):
             description = prompt.get('description', '')
             category_name = prompt.get('category')
             prompt_template = prompt.get('prompt_template')
+            output_specification = prompt.get('output_specification')
             variables = prompt.get('variables', {})
 
             # Buscar categoría si existe
-            category = None
+
             if category_name:
-                category, _ = Category.objects.get_or_create(name=category_name)
+                category = Category.objects.filter(name=category_name).first()
+
+                if not category:
+                    self.stdout.write(self.style.WARNING(f"There is not a category called: {category_name}, please create one."))
 
             # Verificar si ya existe
             exists = Prompt.objects.filter(
                 title=title,
-                prompt_template=prompt_template
             ).first()
 
-            if not exists:
-                Prompt.objects.create(
-                    title=title,
-                    description=description,
-                    category=category,
-                    prompt_template=prompt_template,
-                    variables=variables,
-                )
-                self.stdout.write(self.style.SUCCESS(f"Added prompt: {title}"))
+            if not exists and category:
+                    Prompt.objects.create(
+                        title=title,
+                        description=description,
+                        category=category,
+                        prompt_template=prompt_template,
+                        output_specification=output_specification,
+                        variables=variables,
+                        
+                    )
+                    self.stdout.write(self.style.SUCCESS(f"Added prompt: {title}"))
             else:
                 self.stdout.write(self.style.WARNING(f"Prompt already exists: {title}"))
