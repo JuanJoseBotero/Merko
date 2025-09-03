@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import '../css/PromptParameterization.css';
 
 interface Prompt {
@@ -22,6 +23,8 @@ export default function PromptParameterizationPage() {
   const [values, setValues] = useState<Record<string, string>>({});
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [previewPrompt, setPreviewPrompt] = useState("");
+  const [responseData, setResponseData] = useState<string | null>(null); // Nuevo estado para manejar la respuesta
+const [loading, setLoading] = useState(false); // Loader para mostrar el estado actual del sistema
 
   useEffect(() => {
     let template = prompt.prompt_template;
@@ -42,24 +45,23 @@ export default function PromptParameterizationPage() {
 
   const handleSend = async () => {
   try {
-    const response = await fetch("", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt: previewPrompt
-      }),
+    setLoading(true);
+    setResponseData(null);
+    const response = await axios.post("http://127.0.0.1:8000/api/analysis/request-information-agent/", {
+      prompt: previewPrompt,
+      title: prompt.title
     });
 
-    if (!response.ok) throw new Error("Error sending analysis");
-
-    const data = await response.json();
-    console.log("Response from backend:", data);
-    setPreviewPrompt(data.result || "No response received");
+    console.log("Response from backend:", response.data);
+    setResponseData(JSON.stringify(response.data.result, null, 2));
   } catch (error) {
-      console.error(error);
-      setPreviewPrompt("An error occurred while sending the prompt");
-    }
+    console.error(error);
+    setResponseData("An error occurred while sending the prompt");
+  } finally {
+    setLoading(false);
+  }
 };
+
 
   return (
     <div className="resposive-big-container">
@@ -124,6 +126,23 @@ export default function PromptParameterizationPage() {
           >
           Make analysis
         </button>
+      </div>
+
+      {/* sección de Respuesta */}
+      <div className="mt-10 p-6 border rounded-lg border-black/20 bg-gray-50">
+        <h2 className="heading-3 mb-4">Response</h2>
+
+        {loading && (
+          <p className="text-blue-600 font-medium">
+            Connecting to Agent and processing response...
+          </p>
+        )}
+
+        {!loading && responseData && (
+          <pre className="whitespace-pre-wrap text-sm bg-white p-4 rounded-lg border border-gray-300">
+            {responseData}
+          </pre>
+        )}
       </div>
     </div>
   );

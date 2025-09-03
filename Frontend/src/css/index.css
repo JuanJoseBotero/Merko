@@ -26,6 +26,7 @@
 
 .body {
   @apply text-base md:text-lg text-gray-800;
+  overflow-y: auto;
 }
 
 .price {
