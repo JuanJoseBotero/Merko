@@ -12,7 +12,9 @@ export default function HomePage() {
           <h2 className="text-3xl">
             Explore data, spot opportunities, and make decisions with insight.
           </h2>
-          <Link to="/about" className="main-button button-text">Learn more</Link>
+          <Link to="/about" className="main-button button-text">
+            Learn more
+          </Link>
         </div>
         <div className="w-130 h-130">
           <DotLottieReact

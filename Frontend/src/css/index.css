@@ -1,10 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-firstGray: #F6F6F6;
+  --color-firstGray: #f6f6f6;
 }
-
-
 
 /* -------------------- typography -------------------- */
 
@@ -52,18 +50,14 @@ body {
 /* -------------------- button styles -------------------- */
 
 .main-button {
-  @apply  text-white font-bold py-3 px-5 rounded-xl w-fit cursor-pointer;
-  background-color: #2072B3;
+  @apply text-white font-bold py-3 px-5 rounded-xl w-fit cursor-pointer;
+  background-color: #2072b3;
 }
 
 .background-color-home {
   inset: 0;
   z-index: 0;
-  background: radial-gradient(
-    125% 125% at 50% 90%,
-    #ffffff 40%,
-    #6ebcfc 150%
-  );
+  background: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #6ebcfc 150%);
 }
 
 .cancel-button {
@@ -73,11 +67,9 @@ body {
 /* -------------------- responsive styles -------------------- */
 
 .resposive-big-container {
-  @apply p-10 pt-20 sm:p-20 sm:pt-30 xl:px-50
+  @apply p-10 pt-20 sm:p-20 sm:pt-30 xl:px-50;
 }
 
 .responsive-grid {
   @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4;
 }
-
-

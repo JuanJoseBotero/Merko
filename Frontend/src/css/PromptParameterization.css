@@ -1,5 +1,5 @@
 @import "tailwindcss";
-body{
+body {
   overflow-y: auto;
 }
 .responsive-variables {
@@ -9,5 +9,3 @@ body{
 .responsive-preview {
   @apply flex-1;
 }
-
-
