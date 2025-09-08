@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0005_category_prompt_category'),
+        ("catalog", "0005_category_prompt_category"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='prompt',
-            name='output_specification',
+            model_name="prompt",
+            name="output_specification",
             field=models.TextField(blank=True, null=True),
         ),
     ]
