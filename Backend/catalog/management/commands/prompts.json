@@ -1,19 +1,62 @@
 [
   {
-    "title": "Import and Volume Analysis",
-    "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
+    "title": "Import Analyzer by Product and Period",
+    "description": "Identify the top importers for specific product types and detail exactly what they're importing over a given period of time.",
     "category": "Import Analysis",
-    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}} and the corresponding import {{metric}}",
-    "output_format":"Deliver the output as a dictionary with two main keys: 'importers' — a dictionary where the keys are importer names and the values are nested objects containing 'product_types', 'import_volume', and 'import_value'; and 'timestamp' — the year in which the information was obtained.",
-    "variables": {"product_type": "", "top_x_number": "","time_period": "","category": "","metric": ""}
+    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}}",
+    "output_format":"Return ONLY a valid JSON array with the following schema: [ { \"clave\": \"string (importer's name)\", \"valor\": \"array of strings (imported product types)\" } ].",
+    "variables": {"product_type": "", "top_x_number": "","time_period": "","category": ""}
   },
   {
-    "title": "Distributor Dynamics and Customer Relationships",
-    "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
+    "title": "Import Volume Analysis",
+    "description": "Provide a quick, structured overview of the import landscape for a specific product.",
     "category": "Import Analysis",
-    "prompt_template": "Using the data on the importer {{importer_name}}, analyze their distributor dynamics. Identify their key relationships, the mix of their customers (by {{segment}}), and the proportion of their sales that come from imported products versus locally produced goods. Additionally, assess which of these distributor customers could be potential customers for our company, {{client_company_name}}, based on the {{product_or_service_provided}}.",
-    "output_format":"Present the analysis in a structured JSON format. The JSON should include a main object for the distributor, with nested objects for 'customer_segments' (as a percentage breakdown), 'import_vs_local_ratio', and a list of 'potential_customers' with a brief justification for each at the end, add a 'timestamp' key with the year the information was obtained.",
-    "variables": {"importer_name": "", "segment": "","client_company_name": "","product_or_service_provided": ""}
+    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the import volume in {{metric}}",
+    "output_format":"Return ONLY a valid JSON array with the following schema: [ { \"clave\": \"string (importer's name)\", \"valor\": \"corresponding import volume and metric\" } ]",
+    "variables": {"product_type": "", "top_x_number": "","time_period": "","metric": ""}
+  },
+  {
+    "title": "Analysis of a product's import value",
+    "description": "Provide the information on the import value of a specific product from the top X largest importers over a defined period of time.",
+    "category": "Import Analysis",
+    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the import volume and their corresponding value in {{metric}}",
+    "output_format":"Return ONLY a valid JSON array with the following schema: [ {  \"clave\": \"string (importer's name)\", \"valor\": \"import value with the specificated metric\" } ]",
+    "variables": {"product_type": "", "top_x_number": "","time_period": "","metric": ""}
+  },
+  {
+  "title": "Distributor-Customer Relationships",
+  "description": "Analyze the nature and strength of the relationships between the distributor and its customers.",
+  "category": "Import Analysis",
+  "prompt_template": "Analyze the distributor-customer relationships of {{distributor_name}} in {{country}}, operating in the {{industry}} sector. Classify the interactions with customers into three categories: Strong, Medium, or Weak, based on factors such as contractual agreements, loyalty, and use of direct vs. indirect channels. For each category, provide the relative percentage of customers or sales they represent.",
+  "output_format": "Return only a JSON dictionary with one key 'relationships' and its value as an array of objects [{\"clave\": \"strength\", \"valor\": \"relative percent\"}].",
+  "variables": {"distributor_name": "","country": "","industry": ""
+  }
+},
+  {
+    "title": "Segment Mix Analysis",
+    "description": "Show the distribution of the distributor's customers across different market segments.",
+    "category": "Import Analysis",
+    "prompt_template": "Analyze the segment mix of {{distributor_name}} in {{country}}, within the {{industry}} industry. Identify the main market segments served (e.g., healthcare, retail, food service, manufacturing) and provide their relative percentages.",
+    "output_format":"Return only a JSON dictionary with one key 'segment_mix' and its value as an array of objects [{\"clave\": \"segment\", \"valor\": 0}].",
+    "variables": {"distributor_name": "", "country": "","industry": ""}
+  },
+  {
+  "title": "Customer Mix Analysis",
+  "description": "Identify the main types of customers served by the distributor and their relative proportions.",
+  "category": "Import Analysis",
+  "prompt_template": "Analyze the customer mix of {{distributor_name}} in {{country}}, within the {{industry}} industry. Identify the main customer categories (e.g., retailers, wholesalers, end-consumers, industrial buyers) and estimate their relative shares.",
+  "output_format": "Return only a JSON dictionary with one key 'customer_mix' and its value as an array of objects [{\"clave\":\"category\", \"value\": 0}].",
+  "variables": {
+    "distributor_name": "","country": "","industry": ""
+  }
+},
+  {
+    "title": "Import-Domestic Mix Analysis",
+    "description": "Explain the balance between imported and locally sourced products handled by the distributor.",
+    "category": "Import Analysis",
+    "prompt_template": "Analyze the import-domestic mix of {{distributor_name}} in {{country}}, within the {{industry}} industry. Provide the approximate percentage split between imported and domestically sourced products.",
+    "output_format":"Return only a JSON dictionary with one key 'import_domestic_mix' and its value as an object {\"imported\": 0, \"domestic\": 0}.",
+    "variables": {"distributor_name": "", "country": "","industry": ""}
   },
   {
     "title": "Historical evolution and demand projection",
