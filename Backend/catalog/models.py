@@ -13,7 +13,7 @@ class Prompt(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     prompt_template = models.TextField()
     variables = models.JSONField(default=dict)
-    output_specification = models.TextField(blank=True,null=True)
+    output_format = models.TextField(blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
