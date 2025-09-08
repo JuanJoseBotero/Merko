@@ -4,7 +4,7 @@
     "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
     "category": "Import Analysis",
     "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}} and the corresponding import {{metric}}",
-    "output_specification":"Deliver the output as a dictionary with two main keys: 'importers' — a dictionary where the keys are importer names and the values are nested objects containing 'product_types', 'import_volume', and 'import_value'; and 'timestamp' — the year in which the information was obtained.",
+    "output_format":"Deliver the output as a dictionary with two main keys: 'importers' — a dictionary where the keys are importer names and the values are nested objects containing 'product_types', 'import_volume', and 'import_value'; and 'timestamp' — the year in which the information was obtained.",
     "variables": {"product_type": "", "top_x_number": "","time_period": "","category": "","metric": ""}
   },
   {
@@ -12,16 +12,49 @@
     "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
     "category": "Import Analysis",
     "prompt_template": "Using the data on the importer {{importer_name}}, analyze their distributor dynamics. Identify their key relationships, the mix of their customers (by {{segment}}), and the proportion of their sales that come from imported products versus locally produced goods. Additionally, assess which of these distributor customers could be potential customers for our company, {{client_company_name}}, based on the {{product_or_service_provided}}.",
-    "output_specification":"Present the analysis in a structured JSON format. The JSON should include a main object for the distributor, with nested objects for 'customer_segments' (as a percentage breakdown), 'import_vs_local_ratio', and a list of 'potential_customers' with a brief justification for each at the end, add a 'timestamp' key with the year the information was obtained.",
+    "output_format":"Present the analysis in a structured JSON format. The JSON should include a main object for the distributor, with nested objects for 'customer_segments' (as a percentage breakdown), 'import_vs_local_ratio', and a list of 'potential_customers' with a brief justification for each at the end, add a 'timestamp' key with the year the information was obtained.",
     "variables": {"importer_name": "", "segment": "","client_company_name": "","product_or_service_provided": ""}
   },
   {
-    "title": "Granular Competitive and Market Intelligence",
-    "description": "Identify where products come from, who imports them, in what volumes, and under what logistical conditions.",
-    "category": "Import Analysis",
-    "prompt_template": "Provide granular market intelligence for {{product_type}} in the {{geographical_region}} market. Identify and list key competitors, detailing their customer base, production capacity, and geographical location. In addition, identify the specific product attributes that are most in-demand (e.g., 'color', 'work family', 'material density') and list the top {{top_x_number}} customers for each competitor at the end, add a 'timestamp' key with the year the information was obtained.",
-    "output_specification":"The output should be a dictionary with keys for 'competitors' and 'market_trends'. The 'competitors' key should contain a list of objects, each representing a competitor with details on their customers, capacity, and location. The 'market_trends' key should contain a list of objects detailing key product attributes and their demand.",
-    "variables": {"product_type": "", "geographical_region": "","top_x_number": ""}
+    "title": "Historical evolution and demand projection",
+    "description": "Analyze the historical and future evolution of demand over the last 5 years and projections for the next 5 years.",
+    "category": "Demand Analysis",
+    "prompt_template": "Analyze the historical evolution and future projection of the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Provide annual data for the last 5 years and the next 5 years.",
+    "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Year -5\", \"valor\": 0}, {\"clave\": \"Year -4\", \"valor\": 0}, {\"clave\": \"Year -3\", \"valor\": 0}, {\"clave\": \"Year -2\", \"valor\": 0}, {\"clave\": \"Year -1\", \"valor\": 0}, {\"clave\": \"Current Year\", \"valor\": 0}, {\"clave\": \"Year +1\", \"valor\": 0}, {\"clave\": \"Year +2\", \"valor\": 0}, {\"clave\": \"Year +3\", \"valor\": 0}, {\"clave\": \"Year +4\", \"valor\": 0}, {\"clave\": \"Year +5\", \"valor\": 0}]."
+  },
+{
+    "title": "Factors driving demand",
+    "description": "Identify the main factors driving demand and their relative level of impact.",
+    "category": "Demand Analysis",
+    "prompt_template": "Identify the main factors driving the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each factor a numerical value between 0 and 100 indicating its level of impact on demand.",
+    "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Factor 1\", \"valor\": 0}, {\"clave\": \"Factor 2\", \"valor\": 0}, {\"clave\": \"Factor 3\", \"valor\": 0}, {\"clave\": \"Factor 4\", \"valor\": 0}, {\"clave\": \"Factor 5\", \"valor\": 0}]."
+  },
+{
+    "title": "Potential risks to demand",
+    "description": "Analyze the risks that may affect demand and assign a relative impact level.",
+    "category": "Demand Analysis",
+    "prompt_template": "Analyze the main risks that could affect the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each risk a value between 0 and 100 according to its potential impact level.",
+    "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Risk 1\", \"valor\": 0},{\"clave\": \"Risk 2\", \"valor\": 0},{\"clave\": \"Risk 3\", \"valor\": 0},{\"clave\": \"Risk 4\", \"valor\": 0},{\"clave\": \"Risk 5\", \"valor\": 0}]."
+  },
+{
+    "title": "Customer segments",
+    "description": "Identify the most relevant customer segments and their percentage share of demand.",
+    "category": "Demand Analysis",
+    "prompt_template": "Identify the most relevant customer segments for the demand of the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each segment a percentage value (that adds up to 100%).",
+    "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Segment 1\", \"valor\": 0},{\"clave\": \"Segment 2\", \"valor\": 0},{\"clave\": \"Segment 3\", \"valor\": 0},{\"clave\": \"Segment 4\", \"valor\": 0}]."
+  },
+{
+    "title": "Future growth levers",
+    "description": "Analyze the levers that can boost demand and their expected level of impact.",
+    "category": "Demand Analysis",
+    "prompt_template": "Analyze the main growth levers that could increase the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each lever a value between 0 and 100 according to its potential contribution to demand growth.",
+    "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Lever 1\", \"valor\": 0},{\"clave\": \"Lever 2\", \"valor\": 0},{\"clave\": \"Lever 3\", \"valor\": 0},{\"clave\": \"Lever 4\", \"valor\": 0},{\"clave\": \"Lever 5\", \"valor\": 0}]."
   }
+
   
 ]
