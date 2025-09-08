@@ -9,12 +9,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics, status, viewsets
 from catalog.models import Prompt
+from django.conf import settings
 
-
-
-
-load_dotenv()
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 @api_view(["POST"])
 def request_information_agent(request)->Response:
