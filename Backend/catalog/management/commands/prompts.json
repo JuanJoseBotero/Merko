@@ -97,7 +97,42 @@
     "prompt_template": "Analyze the main growth levers that could increase the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each lever a value between 0 and 100 according to its potential contribution to demand growth.",
     "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
     "output_format": "Return only a JSON array with the format: [{\"clave\": \"Lever 1\", \"valor\": 0},{\"clave\": \"Lever 2\", \"valor\": 0},{\"clave\": \"Lever 3\", \"valor\": 0},{\"clave\": \"Lever 4\", \"valor\": 0},{\"clave\": \"Lever 5\", \"valor\": 0}]."
+  },
+  {
+  "title": "New Products",
+    "description": "Analyze the main product and opportunities for new options in the market.",
+    "category": "Growth Opportunities",
+    "prompt_template": "Analyze the {{main_product}} and its evolution in the market. Identify opportunities to develop {{new_options}}, evaluating the interest in {{target_market}}. Rank the options based on {{prioritization_criteria}}.",
+    "variables": {
+      "main_product": "",
+      "new_options": "",
+      "target_market": "",
+      "prioritization_criteria": ""
+    },
+    "output_format": "Return only a JSON array with the format: [{\"option\": \"Option 1\", \"rank\": 1, \"value\": 0},{\"option\": \"Option 2\", \"rank\": 2, \"value\": 0},{\"option\": \"Option 3\", \"rank\": 3, \"value\": 0}]."
+  },
+  {
+    "title": "New Customers",
+    "description": "Evaluate opportunities to expand the product towards new customer segments.",
+    "category": "Growth Opportunities",
+    "prompt_template": "Evaluate the expansion opportunities of {{main_product}} towards {{new_customer_segment}}. Compare with current customers and determine the main benefits of entry. Rank the opportunities as high, medium, or low priority.",
+    "variables": {
+      "main_product": "",
+      "new_customer_segment": ""
+    },
+    "output_format": "Return only a JSON array with the format: [{\"segment\": \"Segment 1\", \"priority\": \"High\", \"value\": 0},{\"segment\": \"Segment 2\", \"priority\": \"Medium\", \"value\": 0},{\"segment\": \"Segment 3\", \"priority\": \"Low\", \"value\": 0}]."
+  },
+{
+    "title": "New Types of Products",
+    "description": "Analyze related product opportunities and projected market shares.",
+    "category": "Growth Opportunities",
+    "prompt_template": "Using the data of {{main_product}}, analyze growth opportunities in related products such as {{related_products}}. Identify consumption patterns in {{consumer_segment}} and possible combinations with the existing offer. Generate a ranking of products with the highest potential and show their projected market share.",
+    "variables": {
+      "main_product": "",
+      "related_products": "",
+      "consumer_segment": ""
+    },
+    "output_format": "Return only a JSON array with the format: [{\"product\": \"Product 1\", \"projected_share\": 0},{\"product\": \"Product 2\", \"projected_share\": 0},{\"product\": \"Product 3\", \"projected_share\": 0}]."
   }
 
-  
 ]

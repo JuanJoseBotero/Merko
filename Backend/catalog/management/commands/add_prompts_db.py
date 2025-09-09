@@ -22,7 +22,7 @@ class Command(BaseCommand):
             description = prompt.get("description", "")
             category_name = prompt.get("category")
             prompt_template = prompt.get("prompt_template")
-            output_specification = prompt.get("output_specification")
+            output_format = prompt.get("output_format")
             variables = prompt.get("variables", {})
 
             # Search category if it exists
@@ -50,7 +50,7 @@ class Command(BaseCommand):
                     description=description,
                     category=category,
                     prompt_template=prompt_template,
-                    output_specification=output_specification,
+                    output_format=output_format,
                     variables=variables,
                 )
                 self.stdout.write(self.style.SUCCESS(f"Added prompt: {title}"))

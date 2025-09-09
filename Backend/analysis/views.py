@@ -33,7 +33,7 @@ def request_information_agent(request) -> Response:
             status=status.HTTP_400_BAD_REQUEST,
         )
 
-    complete_prompt = formatted_prompt + "\n" + prompt.output_specification
+    complete_prompt = formatted_prompt + "\n" + prompt.output_format
 
     print(f"COMPLETE PROMPT:\n{complete_prompt}")
 
