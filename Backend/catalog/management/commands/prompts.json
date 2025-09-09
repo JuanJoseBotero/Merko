@@ -4,7 +4,7 @@
     "description": "Identify the top importers for specific product types and detail exactly what they're importing over a given period of time.",
     "category": "Import Analysis",
     "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}}",
-    "output_format":"Return ONLY a valid JSON array with the following schema: [ { \"clave\": \"string (importer's name)\", \"valor\": \"array of strings (imported product types)\" } ].",
+    "output_format":"Return ONLY a valid JSON array with the following schema: [ { \"clave\": \"string (importer's name)\", \"valor\": \"array of strings (imported product types)\" } ]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {"product_type": "", "top_x_number": "","time_period": "","category": ""}
   },
   {
@@ -12,7 +12,7 @@
     "description": "Provide a quick, structured overview of the import landscape for a specific product.",
     "category": "Import Analysis",
     "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the import volume in {{metric}}",
-    "output_format":"Return ONLY a valid JSON array with the following schema: [ { \"clave\": \"string (importer's name)\", \"valor\": \"corresponding import volume and metric\" } ]",
+    "output_format":"Return ONLY a valid JSON array with the following schema: [ { \"clave\": \"string (importer's name)\", \"valor\": \"corresponding import volume and metric\" } ]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {"product_type": "", "top_x_number": "","time_period": "","metric": ""}
   },
   {
@@ -20,7 +20,7 @@
     "description": "Provide the information on the import value of a specific product from the top X largest importers over a defined period of time.",
     "category": "Import Analysis",
     "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the import volume and their corresponding value in {{metric}}",
-    "output_format":"Return ONLY a valid JSON array with the following schema: [ {  \"clave\": \"string (importer's name)\", \"valor\": \"import value with the specificated metric\" } ]",
+    "output_format":"Return ONLY a valid JSON array with the following schema: [ {  \"clave\": \"string (importer's name)\", \"valor\": \"import value with the specificated metric\" } ].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {"product_type": "", "top_x_number": "","time_period": "","metric": ""}
   },
   {
@@ -28,7 +28,7 @@
   "description": "Analyze the nature and strength of the relationships between the distributor and its customers.",
   "category": "Import Analysis",
   "prompt_template": "Analyze the distributor-customer relationships of {{distributor_name}} in {{country}}, operating in the {{industry}} sector. Classify the interactions with customers into three categories: Strong, Medium, or Weak, based on factors such as contractual agreements, loyalty, and use of direct vs. indirect channels. For each category, provide the relative percentage of customers or sales they represent.",
-  "output_format": "Return only a JSON dictionary with one key 'relationships' and its value as an array of objects [{\"clave\": \"strength\", \"valor\": \"relative percent\"}].",
+  "output_format": "Return only a JSON dictionary with one key 'relationships' and its value as an array of objects [{\"clave\": \"strength\", \"valor\": \"relative percent\"}]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise..",
   "variables": {"distributor_name": "","country": "","industry": ""
   }
 },
@@ -37,7 +37,7 @@
     "description": "Show the distribution of the distributor's customers across different market segments.",
     "category": "Import Analysis",
     "prompt_template": "Analyze the segment mix of {{distributor_name}} in {{country}}, within the {{industry}} industry. Identify the main market segments served (e.g., healthcare, retail, food service, manufacturing) and provide their relative percentages.",
-    "output_format":"Return only a JSON dictionary with one key 'segment_mix' and its value as an array of objects [{\"clave\": \"segment\", \"valor\": 0}].",
+    "output_format":"Return only a JSON dictionary with one key 'segment_mix' and its value as an array of objects [{\"clave\": \"segment\", \"valor\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {"distributor_name": "", "country": "","industry": ""}
   },
   {
@@ -45,7 +45,7 @@
   "description": "Identify the main types of customers served by the distributor and their relative proportions.",
   "category": "Import Analysis",
   "prompt_template": "Analyze the customer mix of {{distributor_name}} in {{country}}, within the {{industry}} industry. Identify the main customer categories (e.g., retailers, wholesalers, end-consumers, industrial buyers) and estimate their relative shares.",
-  "output_format": "Return only a JSON dictionary with one key 'customer_mix' and its value as an array of objects [{\"clave\":\"category\", \"value\": 0}].",
+  "output_format": "Return only a JSON dictionary with one key 'customer_mix' and its value as an array of objects [{\"clave\":\"category\", \"value\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
   "variables": {
     "distributor_name": "","country": "","industry": ""
   }
@@ -55,7 +55,7 @@
     "description": "Explain the balance between imported and locally sourced products handled by the distributor.",
     "category": "Import Analysis",
     "prompt_template": "Analyze the import-domestic mix of {{distributor_name}} in {{country}}, within the {{industry}} industry. Provide the approximate percentage split between imported and domestically sourced products.",
-    "output_format":"Return only a JSON dictionary with one key 'import_domestic_mix' and its value as an object {\"imported\": 0, \"domestic\": 0}.",
+    "output_format":"Return only a JSON dictionary with one key 'import_domestic_mix' and its value as an object {\"imported\": 0, \"domestic\": 0}.If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {"distributor_name": "", "country": "","industry": ""}
   },
   {
@@ -64,7 +64,7 @@
     "category": "Demand Analysis",
     "prompt_template": "Analyze the historical evolution and future projection of the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Provide annual data for the last 5 years and the next 5 years.",
     "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
-    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Year -5\", \"valor\": 0}, {\"clave\": \"Year -4\", \"valor\": 0}, {\"clave\": \"Year -3\", \"valor\": 0}, {\"clave\": \"Year -2\", \"valor\": 0}, {\"clave\": \"Year -1\", \"valor\": 0}, {\"clave\": \"Current Year\", \"valor\": 0}, {\"clave\": \"Year +1\", \"valor\": 0}, {\"clave\": \"Year +2\", \"valor\": 0}, {\"clave\": \"Year +3\", \"valor\": 0}, {\"clave\": \"Year +4\", \"valor\": 0}, {\"clave\": \"Year +5\", \"valor\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Year -5\", \"valor\": 0}, {\"clave\": \"Year -4\", \"valor\": 0}, {\"clave\": \"Year -3\", \"valor\": 0}, {\"clave\": \"Year -2\", \"valor\": 0}, {\"clave\": \"Year -1\", \"valor\": 0}, {\"clave\": \"Current Year\", \"valor\": 0}, {\"clave\": \"Year +1\", \"valor\": 0}, {\"clave\": \"Year +2\", \"valor\": 0}, {\"clave\": \"Year +3\", \"valor\": 0}, {\"clave\": \"Year +4\", \"valor\": 0}, {\"clave\": \"Year +5\", \"valor\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
 {
     "title": "Factors driving demand",
@@ -72,7 +72,7 @@
     "category": "Demand Analysis",
     "prompt_template": "Identify the main factors driving the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each factor a numerical value between 0 and 100 indicating its level of impact on demand.",
     "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
-    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Factor 1\", \"valor\": 0}, {\"clave\": \"Factor 2\", \"valor\": 0}, {\"clave\": \"Factor 3\", \"valor\": 0}, {\"clave\": \"Factor 4\", \"valor\": 0}, {\"clave\": \"Factor 5\", \"valor\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Factor 1\", \"valor\": 0}, {\"clave\": \"Factor 2\", \"valor\": 0}, {\"clave\": \"Factor 3\", \"valor\": 0}, {\"clave\": \"Factor 4\", \"valor\": 0}, {\"clave\": \"Factor 5\", \"valor\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
 {
     "title": "Potential risks to demand",
@@ -80,7 +80,7 @@
     "category": "Demand Analysis",
     "prompt_template": "Analyze the main risks that could affect the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each risk a value between 0 and 100 according to its potential impact level.",
     "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
-    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Risk 1\", \"valor\": 0},{\"clave\": \"Risk 2\", \"valor\": 0},{\"clave\": \"Risk 3\", \"valor\": 0},{\"clave\": \"Risk 4\", \"valor\": 0},{\"clave\": \"Risk 5\", \"valor\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Risk 1\", \"valor\": 0},{\"clave\": \"Risk 2\", \"valor\": 0},{\"clave\": \"Risk 3\", \"valor\": 0},{\"clave\": \"Risk 4\", \"valor\": 0},{\"clave\": \"Risk 5\", \"valor\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
 {
     "title": "Customer segments",
@@ -88,7 +88,7 @@
     "category": "Demand Analysis",
     "prompt_template": "Identify the most relevant customer segments for the demand of the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each segment a percentage value (that adds up to 100%).",
     "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
-    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Segment 1\", \"valor\": 0},{\"clave\": \"Segment 2\", \"valor\": 0},{\"clave\": \"Segment 3\", \"valor\": 0},{\"clave\": \"Segment 4\", \"valor\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Segment 1\", \"valor\": 0},{\"clave\": \"Segment 2\", \"valor\": 0},{\"clave\": \"Segment 3\", \"valor\": 0},{\"clave\": \"Segment 4\", \"valor\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
 {
     "title": "Future growth levers",
@@ -96,43 +96,34 @@
     "category": "Demand Analysis",
     "prompt_template": "Analyze the main growth levers that could increase the demand for the product or service {{product_or_service}} of the company {{company_name}} in {{country}}, within the {{industry}} industry. Assign each lever a value between 0 and 100 according to its potential contribution to demand growth.",
     "variables": {"product_or_service": "", "company_name": "", "country": "", "industry": ""},
-    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Lever 1\", \"valor\": 0},{\"clave\": \"Lever 2\", \"valor\": 0},{\"clave\": \"Lever 3\", \"valor\": 0},{\"clave\": \"Lever 4\", \"valor\": 0},{\"clave\": \"Lever 5\", \"valor\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"clave\": \"Lever 1\", \"valor\": 0},{\"clave\": \"Lever 2\", \"valor\": 0},{\"clave\": \"Lever 3\", \"valor\": 0},{\"clave\": \"Lever 4\", \"valor\": 0},{\"clave\": \"Lever 5\", \"valor\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
   {
   "title": "New Products",
     "description": "Analyze the main product and opportunities for new options in the market.",
     "category": "Growth Opportunities",
     "prompt_template": "Analyze the {{main_product}} and its evolution in the market. Identify opportunities to develop {{new_options}}, evaluating the interest in {{target_market}}. Rank the options based on {{prioritization_criteria}}.",
-    "variables": {
-      "main_product": "",
-      "new_options": "",
-      "target_market": "",
-      "prioritization_criteria": ""
+    "variables": {"main_product": "","new_options": "","target_market": "","prioritization_criteria": ""
     },
-    "output_format": "Return only a JSON array with the format: [{\"option\": \"Option 1\", \"rank\": 1, \"value\": 0},{\"option\": \"Option 2\", \"rank\": 2, \"value\": 0},{\"option\": \"Option 3\", \"rank\": 3, \"value\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"option\": \"Option 1\", \"rank\": 1, \"value\": 0},{\"option\": \"Option 2\", \"rank\": 2, \"value\": 0},{\"option\": \"Option 3\", \"rank\": 3, \"value\": 0}].If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
   {
     "title": "New Customers",
     "description": "Evaluate opportunities to expand the product towards new customer segments.",
     "category": "Growth Opportunities",
     "prompt_template": "Evaluate the expansion opportunities of {{main_product}} towards {{new_customer_segment}}. Compare with current customers and determine the main benefits of entry. Rank the opportunities as high, medium, or low priority.",
-    "variables": {
-      "main_product": "",
-      "new_customer_segment": ""
+    "variables": {"main_product": "","new_customer_segment": ""
     },
-    "output_format": "Return only a JSON array with the format: [{\"segment\": \"Segment 1\", \"priority\": \"High\", \"value\": 0},{\"segment\": \"Segment 2\", \"priority\": \"Medium\", \"value\": 0},{\"segment\": \"Segment 3\", \"priority\": \"Low\", \"value\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"segment\": \"Segment 1\", \"priority\": \"High\", \"value\": 0},{\"segment\": \"Segment 2\", \"priority\": \"Medium\", \"value\": 0},{\"segment\": \"Segment 3\", \"priority\": \"Low\", \"value\": 0}]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
 {
     "title": "New Types of Products",
     "description": "Analyze related product opportunities and projected market shares.",
     "category": "Growth Opportunities",
     "prompt_template": "Using the data of {{main_product}}, analyze growth opportunities in related products such as {{related_products}}. Identify consumption patterns in {{consumer_segment}} and possible combinations with the existing offer. Generate a ranking of products with the highest potential and show their projected market share.",
-    "variables": {
-      "main_product": "",
-      "related_products": "",
-      "consumer_segment": ""
+    "variables": {"main_product": "","related_products": "","consumer_segment": ""
     },
-    "output_format": "Return only a JSON array with the format: [{\"product\": \"Product 1\", \"projected_share\": 0},{\"product\": \"Product 2\", \"projected_share\": 0},{\"product\": \"Product 3\", \"projected_share\": 0}]."
+    "output_format": "Return only a JSON array with the format: [{\"product\": \"Product 1\", \"projected_share\": 0},{\"product\": \"Product 2\", \"projected_share\": 0},{\"product\": \"Product 3\", \"projected_share\": 0}]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   }
 
 ]
