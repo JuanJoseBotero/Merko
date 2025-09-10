@@ -19,7 +19,7 @@ const PromptListPage: React.FC = () => {
   useEffect(() => {
     if (!categoryId) return;
 
-    fetch(`http://127.0.0.1:8000/api/prompts/?category=${categoryId}`)
+    fetch(`http://127.0.0.1:8000/api/catalog/prompts/?category=${categoryId}`)
       .then((res) => res.json())
       .then((data) => setPrompts(data))
       .catch((err) => console.error(err));
