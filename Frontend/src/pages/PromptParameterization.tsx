@@ -44,7 +44,7 @@ export default function PromptParameterizationPage() {
 
     // Añadir información adicional a la plantilla si se proporcionó
     if (additionalInfo.trim() !== "") {
-      template += `\n\nInformación adicional: ${additionalInfo}`;
+      template += `\n\nAdditional information ${additionalInfo}`;
     }
 
     // Actualizar el estado de previewPrompt con la plantilla construida
@@ -73,14 +73,14 @@ export default function PromptParameterizationPage() {
       );
 
       // Registrar la respuesta en la consola para depuración
-      console.log("Respuesta del backend:", response.data);
+      console.log("Response from backend:", response.data);
       // Almacenar la respuesta formateada (JSON stringificado) en el estado
       setResponseData(JSON.stringify(response.data.result, null, 2));
     } catch (error) {
       // Registrar el error en la consola para depuración
       console.error(error);
       // Establecer un mensaje de error en el estado de respuesta
-      setResponseData("Ocurrió un error al enviar el prompt");
+      setResponseData("An error occurred while sending the prompt");
     } finally {
       // Desactivar el estado de carga al completar la solicitud (éxito o fallo)
       setLoading(false);
@@ -110,7 +110,7 @@ export default function PromptParameterizationPage() {
                 value={values[key] || ""} // Vincular al estado, por defecto cadena vacía
                 onChange={(e) => handleChange(key, e.target.value)} // Actualizar estado al cambiar
                 className="border border-gray-300 rounded-xl px-4 py-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
-                placeholder={`Ingresar ${key}`} // Texto de marcador de posición
+                placeholder={`Enter ${key}`} // Texto de marcador de posición
               />
             </div>
           ))}
@@ -118,7 +118,7 @@ export default function PromptParameterizationPage() {
 
         {/* Sección de Vista Previa */}
         <div className="rounded-lg p-6 border border-black/10 responsive-preview">
-          <h2 className="heading-3 mb-4">Vista Previa del Prompt</h2>
+          <h2 className="heading-3 mb-4">Prompt Preview</h2>
           {/* Mostrar la plantilla del prompt con marcadores reemplazados por valores */}
           <p className="body whitespace-pre-line border rounded-lg border-black/10 p-2">
             {prompt.prompt_template.split(/({{.*?}})/g).map((part, idx) => {
@@ -133,12 +133,12 @@ export default function PromptParameterizationPage() {
           </p>
           {/* Campo para información adicional */}
           <div className="mt-8 mb-4">
-            <label className="heading-4">Información Adicional</label>
+            <label className="heading-4">Additional information</label>
             <textarea
               value={additionalInfo}
               onChange={(e) => setAdditionalInfo(e.target.value)} // Actualizar estado al cambiar
               className="border border-gray-300 rounded-xl mt-5 px-4 py-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
-              placeholder="Añade detalles adicionales aquí..."
+              placeholder="Add any extra details here..."
               rows={4}
             />
           </div>
@@ -149,7 +149,7 @@ export default function PromptParameterizationPage() {
       <div className="w-full flex justify-end mt-10 gap-4">
         {/* Botón para cancelar y regresar a la página anterior */}
         <button onClick={() => navigate(-1)} className="cancel-button">
-          Cancelar
+          Cancel
         </button>
         {/* Botón para enviar el análisis, deshabilitado si faltan valores */}
         <button
@@ -161,18 +161,18 @@ export default function PromptParameterizationPage() {
           }`}
           disabled={Object.keys(prompt.variables).some((key) => !values[key])}
         >
-          Realizar análisis
+          Make analysis
         </button>
       </div>
 
       {/* Sección de Respuesta */}
       <div className="mt-10 p-6 border rounded-lg border-black/20 bg-gray-50">
-        <h2 className="heading-3 mb-4">Respuesta</h2>
+        <h2 className="heading-3 mb-4">Response</h2>
 
         {/* Mostrar indicador de carga mientras se procesa la solicitud */}
         {loading && (
           <p className="text-blue-600 font-medium">
-            Conectando al agente y procesando la respuesta...
+            Connecting to Agent and processing response...
           </p>
         )}
 
