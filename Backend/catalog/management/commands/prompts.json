@@ -116,7 +116,7 @@
     },
     "output_format": "Return only a JSON array with the format: [{\"segment\": \"Segment 1\", \"priority\": \"High\", \"value\": 0},{\"segment\": \"Segment 2\", \"priority\": \"Medium\", \"value\": 0},{\"segment\": \"Segment 3\", \"priority\": \"Low\", \"value\": 0}]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   },
-{
+  {
     "title": "New Types of Products",
     "description": "Analyze related product opportunities and projected market shares.",
     "category": "Growth Opportunities",
@@ -124,6 +124,50 @@
     "variables": {"main_product": "","related_products": "","consumer_segment": ""
     },
     "output_format": "Return only a JSON array with the format: [{\"product\": \"Product 1\", \"projected_share\": 0},{\"product\": \"Product 2\", \"projected_share\": 0},{\"product\": \"Product 3\", \"projected_share\": 0}]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
+  },
+  {
+    "title": "Customer Segmentation and Profiling",
+    "description": "Perform advanced segmentation of customers based on behavior, demographics, and purchasing patterns.",
+    "category": "Customer Analysis",
+    "prompt_template": "Perform advanced customer segmentation for {{company_name}} in the {{industry}} industry, operating in {{country}}. Segment customers according to behavioral variables such as frequency of purchase, product mix, and digital engagement. Include demographic and psychographic dimensions when possible.",
+    "variables": {"company_name": "","industry": "","country": ""
+    },
+    "output_format": "Return ONLY a valid JSON array with the format: [{\"clave\": \"Segment Name\", \"valor\": {\"percentage\": 0, \"key_characteristics\": [\"trait 1\", \"trait 2\", \"trait 3\"]}}]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
+  },
+  {
+    "title": "Value Proposition Builder",
+    "description": "Generate customer-focused value propositions based on market expectations and company strengths.",
+    "category": "Customer Analysis",
+    "prompt_template": "Generate value propositions for {{company_name}} in the {{industry}} industry, operating in {{country}}. The propositions must align with current market expectations and reflect key differentiators relevant to the {{target_audience}}. Emphasize aspects such as innovation, service quality, sustainability, and customer experience.",
+    "variables": {"company_name": "","industry": "","country": "","target_audience": ""
+    },
+    "output_format": "Return ONLY a valid JSON array with the format: [{\"clave\": \"Value Proposition 1\", \"valor\": \"description of the value proposition\"}, {\"clave\": \"Value Proposition 2\", \"valor\": \"description of the value proposition\"}, {\"clave\": \"Value Proposition 3\", \"valor\": \"description of the value proposition\"}]. If the user's prompt includes a section with 'additional_information:', include a key named 'additional_information' with the requested details as a string. Do not include this key otherwise."
+  },
+  {
+    "title": "Price Transparency and Competitor Benchmarking",
+    "description": "Compare product or service prices with realistic market competitors based on user interests.",
+    "category": "Customer Analysis",
+    "prompt_template": "Analyze the pricing of {{product_or_service}} offered by {{company_name}} in the {{industry}} industry and compare it with {{top_x_number}} realistic competitors operating in {{country}}. Ensure that comparisons are consistent with user interests such as {{key_value_factors}} (e.g., quality, delivery, customization). Provide transparency regarding price positioning and relative competitiveness.",
+    "variables": {"company_name": "","product_or_service": "","industry": "","country": "","top_x_number": "","key_value_factors": ""
+    },
+    "output_format": "Return ONLY a valid JSON array with the format: [{\"clave\": \"Competitor Name\", \"valor\": {\"price_position\": \"string (e.g., Higher, Similar, Lower)\", \"price_difference\": 0, \"key_factor_alignment\": \"string\"}}]. If the user's prompt includes a section with 'additional_information:', include a key named 'additional_information' with the requested details as a string. Do not include this key otherwise."
+  },
+  {
+    "title": "Procurement Culture Mapping",
+    "description": "Analyze the purchasing culture of customers (centralized vs. decentralized) and its implications.",
+    "category": "Customer Analysis",
+    "prompt_template": "Analyze the procurement culture of customers of {{company_name}} in {{country}}, within the {{industry}} industry. Determine the proportion of clients operating under centralized vs. decentralized procurement models. Describe key decision-making behaviors and implications for negotiation strategies.",
+    "variables": {"company_name": "","country": "","industry": ""
+    },
+    "output_format": "Return ONLY a JSON object with the format: {\"procurement_culture\": {\"centralized\": 0, \"decentralized\": 0}, \"insights\": [\"string insight 1\", \"string insight 2\", \"string insight 3\"]}. If the user's prompt includes a section with 'additional_information:', include a key named 'additional_information' with the requested details as a string. Do not include this key otherwise."
+  },
+    {
+    "title": "Churn Risk and Retention Modeling",
+    "description": "Anticipate potential customer losses by analyzing churn risk and identifying retention opportunities.",
+    "category": "Customer Analysis",
+    "prompt_template": "Perform a churn risk analysis for {{company_name}} in {{country}}, operating in the {{industry}} industry. Identify the top {{top_x_number}} risk factors that contribute to potential customer losses and suggest retention strategies for each segment. Include a churn probability score for each segment.",
+    "variables": {"company_name": "","country": "","industry": "","top_x_number": ""
+    },
+    "output_format": "Return ONLY a valid JSON array with the format: [{\"clave\": \"Segment Name\", \"valor\": {\"churn_probability\": 0, \"main_risk_factors\": [\"factor 1\", \"factor 2\"], \"recommended_actions\": [\"action 1\", \"action 2\"]}}]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise."
   }
-
 ]
