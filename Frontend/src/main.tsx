@@ -6,6 +6,9 @@ import HomePage from "./pages/HomePage";
 import Catalog from "./pages/Catalog";
 import PromptList from "./pages/PromptList";
 import PromptParameterization from "./pages/PromptParameterization";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import PrivateRoute from "./Components/CommonComponents/PrivateRoute";
 import App from "./App";
 import { Link } from "react-router-dom";
 
@@ -30,8 +33,21 @@ const router = createBrowserRouter([
         element: <PromptList />,
       },
       {
+        /* Ruta protegida */
         path: "/catalog/prompt-list/prompt-parameterization",
-        element: <PromptParameterization />,
+        element: (
+        <PrivateRoute>
+          <PromptParameterization /> 
+        </PrivateRoute>
+        ),
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
       },
     ],
     ErrorBoundary: () => {
@@ -45,6 +61,7 @@ const router = createBrowserRouter([
       );
     },
   },
+  
 ]);
 
 createRoot(document.getElementById("root")!).render(

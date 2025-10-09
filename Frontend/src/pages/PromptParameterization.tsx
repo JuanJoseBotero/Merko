@@ -32,7 +32,7 @@ export default function PromptParameterizationPage() {
     });
 
     if (additionalInfo.trim() !== "") {
-      template += `\n\nAdditional information: ${additionalInfo}`;
+      template += `\n\nAdditional_information: ${additionalInfo}`;
     }
 
     setPreviewPrompt(template);
