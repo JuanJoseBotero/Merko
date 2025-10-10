@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/PromptParameterization.css";
+import "../css/Icons/Loader.css"
 
 // Definir la interfaz para el objeto Prompt, que describe su estructura
 interface Prompt {
@@ -24,32 +25,39 @@ export default function PromptParameterizationPage() {
 
   // Estado para almacenar los valores ingresados por el usuario para las variables del prompt
   const [values, setValues] = useState<Record<string, string>>({});
+
   // Estado para almacenar información adicional proporcionada por el usuario
   const [additionalInfo, setAdditionalInfo] = useState("");
+
   // Estado para almacenar la vista previa del prompt construido
   const [previewPrompt, setPreviewPrompt] = useState("");
+
   // Estado para almacenar la respuesta del backend
   const [responseData, setResponseData] = useState<string | null>(null);
+
   // Estado para manejar el estado de carga durante las solicitudes al backend
   const [loading, setLoading] = useState(false);
 
   // Efecto para actualizar la vista previa del prompt cuando cambian los valores o la información adicional
   useEffect(() => {
-    // Comenzar con la plantilla original del prompt
     let template = prompt.prompt_template;
-    // Reemplazar marcadores (ej. {{key}}) con los valores ingresados por el usuario o mantener el marcador si no hay valor
     Object.keys(values).forEach((key) => {
       template = template.replace(`{{${key}}}`, values[key] || `{{${key}}}`);
     });
 
-    // Añadir información adicional a la plantilla si se proporcionó
     if (additionalInfo.trim() !== "") {
       template += `\n\nAdditional information ${additionalInfo}`;
     }
 
-    // Actualizar el estado de previewPrompt con la plantilla construida
     setPreviewPrompt(template);
-  }, [values, additionalInfo, prompt]); // Dependencias: se ejecuta cuando cambian estos valores
+  }, [values, additionalInfo, prompt]);
+
+  useEffect(()=> {
+    if(responseData) {
+      setLoading(false);
+      navigate("/dashboard", {state: {responseData: JSON.parse(responseData)}});
+    }
+  }, [responseData]);
 
   // Manejador para actualizar los valores de las variables cuando el usuario escribe en un campo
   const handleChange = (key: string, value: string) => {
@@ -59,10 +67,9 @@ export default function PromptParameterizationPage() {
   // Manejador para enviar el prompt construido al backend
   const handleSend = async () => {
     try {
-      // Activar el estado de carga para mostrar el indicador de procesamiento
       setLoading(true);
-      // Limpiar la respuesta anterior
       setResponseData(null);
+
       // Realizar una solicitud POST al backend con el prompt construido y el título
       const response = await axios.post(
         "http://127.0.0.1:8000/api/analysis/request-information-agent/",
@@ -72,20 +79,16 @@ export default function PromptParameterizationPage() {
         }
       );
 
-      // Registrar la respuesta en la consola para depuración
-      console.log("Response from backend:", response.data);
       // Almacenar la respuesta formateada (JSON stringificado) en el estado
       setResponseData(JSON.stringify(response.data.result, null, 2));
+      
     } catch (error) {
-      // Registrar el error en la consola para depuración
       console.error(error);
-      // Establecer un mensaje de error en el estado de respuesta
       setResponseData("An error occurred while sending the prompt");
-    } finally {
-      // Desactivar el estado de carga al completar la solicitud (éxito o fallo)
-      setLoading(false);
     }
   };
+
+
 
   // Estructura JSX para renderizar el componente
   return (
@@ -97,14 +100,11 @@ export default function PromptParameterizationPage() {
       </h1>
       {/* Contenedor flexible para las secciones de variables y vista previa */}
       <div className="flex flex-wrap gap-2 mt-4 max-h-dvh">
-        {/* Sección de Variables */}
         <div className="space-y-3 border rounded-lg border-black/10 p-2 responsive-variables">
           {/* Mapear las variables del prompt para crear campos de entrada */}
           {Object.keys(prompt.variables).map((key) => (
             <div key={key}>
-              {/* Etiqueta para el campo de entrada de la variable */}
               <label className="block heading-4 mb-2 capitalize">{key}</label>
-              {/* Campo de entrada para ingresar el valor de la variable */}
               <input
                 type="text"
                 value={values[key] || ""} // Vincular al estado, por defecto cadena vacía
@@ -166,23 +166,20 @@ export default function PromptParameterizationPage() {
       </div>
 
       {/* Sección de Respuesta */}
-      <div className="mt-10 p-6 border rounded-lg border-black/20 bg-gray-50">
-        <h2 className="heading-3 mb-4">Response</h2>
+      {loading && (
+        <div className="absolute w-full h-dvh top-0 left-0 flex flex-col items-center justify-center bg-black/30 p-4">
+          <div className="loader">
+            <div className="loader__bar"></div>
+            <div className="loader__bar"></div>
+            <div className="loader__bar"></div>
+            <div className="loader__bar"></div>
+            <div className="loader__bar"></div>
+            <div className="loader__ball"></div>
+          </div>
+          <p className="heading-3 text-white">This will take few minutes</p>
+        </div>
+      )}
 
-        {/* Mostrar indicador de carga mientras se procesa la solicitud */}
-        {loading && (
-          <p className="text-blue-600 font-medium">
-            Connecting to Agent and processing response...
-          </p>
-        )}
-
-        {/* Mostrar la respuesta del backend cuando esté disponible */}
-        {!loading && responseData && (
-          <pre className="whitespace-pre-wrap text-sm bg-white p-4 rounded-lg border border-gray-300">
-            {responseData}
-          </pre>
-        )}
-      </div>
     </div>
   );
 }
