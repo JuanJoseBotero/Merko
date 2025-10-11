@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "company": "Farmatodo",
+    "country": "Venezuela",
+    "industry": "Pharmaceutical Retail",
+    "size": "Large Enterprise",
+    "analysis_date": "2025-09-03"
+  },
+  "opportunities": [
+    {
+      "id": "1",
+      "title": "Segmento de productos de cuidado personal premium 24 horas",
+      "description": "Expansión del surtido premium de belleza y cuidado personal en tiendas con servicio 24 h, aprovechando clientes nocturnos urbanos que buscan calidad y conveniencia.",
+      "segment": "Consumidores urbanos nocturnos buscando productos premium en belleza y cuidado personal",
+      "segment_size": "≈ 150 000 clientes activos por año",
+      "opportunity_value": "≈ USD 75 000 000 al año",
+      "revenue": "≈ 5 %",
+      "growth": "≈ 12 % anual",
+      "success_probability": "0.7",
+      "risks": [
+        "Volatilidad económica e inflación reduciendo poder adquisitivo",
+        "Competencia informal con precios más bajos"
+      ],
+      "timeline": "6"
+    },
+    {
+      "id": "2",
+      "title": "Línea económica de genéricos importados",
+      "description": "Introducción formal de medicamentos genéricos importados económicos (por ejemplo, de India) con buena rotación pero menor precio.",
+      "segment": "Consumidores con presupuestos ajustados que compran genéricos de bajo costo",
+      "segment_size": "≈ 300 000 clientes por año",
+      "opportunity_value": "≈ USD 90 000 000 al año",
+      "revenue": "≈ 6 %",
+      "growth": "≈ 15 % anual",
+      "success_probability": "0.6",
+      "risks": [
+        "Desconfianza sobre la calidad de importados",
+        "Regulación sanitaria y aprobaciones complicadas"
+      ],
+      "timeline": "9"
+    },
+    {
+      "id": "3",
+      "title": "Skincare y dermocosméticos sin alérgenos",
+      "description": "Lanzamiento de productos de cuidado de la piel formulados sin ingredientes irritantes (ej. amarillo #5), para pieles sensibles.",
+      "segment": "Consumidores urbanos con piel sensible o alergias dermatológicas",
+      "segment_size": "≈ 80 000 clientes por año",
+      "opportunity_value": "≈ USD 24 000 000 al año",
+      "revenue": "≈ 1.6 %",
+      "growth": "≈ 20 % anual",
+      "success_probability": "0.5",
+      "risks": [
+        "Falta de aceptación de nuevos productos por desconfianza",
+        "Costes de desarrollo y certificación más altos"
+      ],
+      "timeline": "8"
+    },
+    {
+      "id": "4",
+      "title": "Delivery exprés en zonas urbanas densas",
+      "description": "Optimización de delivery en zonas urbanas con alta densidad poblacional, reduciendo tiempos y limpiando imagen tras quejas previas.",
+      "segment": "Usuarios digitales urbanos que demandan entrega rápida de productos diarios",
+      "segment_size": "≈ 200 000 pedidos anuales nuevos",
+      "opportunity_value": "≈ USD 40 000 000 al año",
+      "revenue": "≈ 3 %",
+      "growth": "≈ 25 % anual",
+      "success_probability": "0.55",
+      "risks": [
+        "Experiencia negativa previa daña reputación (mal delivery) :contentReference[oaicite:0]{index=0}",
+        "Infraestructura logística costosa en contexto de alta inflación"
+      ],
+      "timeline": "7"
+    }
+  ],
+  "strategic_summary": {
+    "total_opportunities": "4",
+    "recommendation": "La oportunidad más prometedora es el desarrollo de una línea económica de genéricos importados (Oportunidad 2): combina gran segmento (≈300 000 clientes/año), alto potencial de valor (≈USD 90 M/año), crecimiento atractivo (15 %) y posibilidad de penetración rápida. Requiere mitigar riesgos de calidad y regulación, y puede generar un impacto significativo (≈6 % de incremento en ingresos anuales) en los próximos 9 meses."
+  }
+}
