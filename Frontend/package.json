@@ -11,11 +11,17 @@
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.15.0",
+    "@nivo/bump": "^0.99.0",
+    "@nivo/line": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
+    "@nivo/radar": "^0.99.0",
     "@tailwindcss/vite": "^4.1.14",
     "axios": "^1.12.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-grid-layout": "^1.5.2",
     "react-hook-form": "^7.65.0",
+    "react-resizable": "^3.0.5",
     "react-router-dom": "^7.9.4",
     "tailwindcss": "^4.1.14"
   },
