@@ -9,3 +9,17 @@ body {
 .responsive-preview {
   @apply flex-1;
 }
+
+.info-card {
+  @apply absolute left-full top-1/2 -translate-y-1/2 ml-3 w-60 text-black text-sm p-3 rounded-xl border border-white/40 shadow-lg z-10 backdrop-blur-lg transition-all duration-300 bg-white;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%) translateX(10px);
+}
+
+label:hover + input + .info-card,
+.info-card:hover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0);
+}
