@@ -365,5 +365,71 @@
       "company_name": "Enter the company name (e.g., Ecopetrol S.A.).",
       "efficiency_indicators": "Enter efficiency indicators (e.g., productivity, operating costs, delivery times)."
     }
+  },
+  {
+    "title": "General Competitive Landscape",
+    "description": "Identify and compare key competitors to evaluate the market landscape and positioning of the main company.",
+    "category": "Competitive Analysis",
+    "prompt_template": "Perform a detailed competitive landscape analysis for {{main_company}} in the {{industry}} sector. Identify top competitors, their market share, and overall positioning. Highlight key differentiators, strengths, and weaknesses for each. Summarize strategic opportunities and threats for {{main_company}}.",
+    "output_format": "Return ONLY a valid JSON array with the following schema: [ { \"type_of_chart\": \"Pie\", \"chart_data\": [ { \"id\": \"string (competitor name)\", \"label\": \"string (competitor name)\", \"value\": number (market share or competitive score) } ] } ]. Example structure: [ { \"type_of_chart\": \"Pie\", \"chart_data\": [ { \"id\": \"Tesla\", \"label\": \"Tesla\", \"value\": 45 }, { \"id\": \"Ford\", \"label\": \"Ford\", \"value\": 25 }, { \"id\": \"BYD\", \"label\": \"BYD\", \"value\": 30 } ] } ]. If 'additional_information:' is provided, include it as a key named 'additional_information' with the text as a string. For Nivo Pie chart: Use <ResponsivePie data={chart_data} /> where 'id' defines the slice identifier, 'label' defines the displayed name, and 'value' defines the slice size (must be a positive number).",
+    "variables": {
+      "main_company": "Enter the main company name (e.g., Tesla).",
+      "industry": "Enter the industry or market sector (e.g., Electric Vehicles)."
+    }
+  },
+  {
+    "title": "Financial Performance Comparison",
+    "description": "Compare financial indicators between the main company and its competitors to evaluate performance and investment trends.",
+    "category": "Competitive Analysis",
+    "prompt_template": "Analyze the financial performance of {{main_company}} and its main competitors in the {{industry}} sector. Compare key metrics such as revenue, profit margin, free cash flow, and capital investments. Highlight leaders, laggards, and patterns in financial health across competitors.",
+    "output_format": "Return ONLY a valid JSON array with the following schema: [ { \"type_of_chart\": \"Bar\", \"chart_data\": [ { \"competitor\": \"string\", ... } ] } ]. The structure of 'chart_data' depends on whether the bar chart is individual or grouped:\n\n- **Individual bars**: Each object in 'chart_data' must have a 'competitor' (string, for the x-axis label) and a single 'value' (number, for the bar height). Example: [ { \"type_of_chart\": \"Bar\", \"chart_data\": [ { \"competitor\": \"Microsoft\", \"value\": 210 }, { \"competitor\": \"Google\", \"value\": 180 }, { \"competitor\": \"Apple\", \"value\": 250 } ] } ]. Use in Nivo: <ResponsiveBar data={chart_data} indexBy=\"competitor\" keys={[\"value\"]} />.\n\n- **Grouped bars**: Each object in 'chart_data' must have a 'competitor' (string, for the x-axis label) and multiple numeric keys (e.g., 'revenue', 'profit_margin') for each bar group. Example: [ { \"type_of_chart\": \"Bar\", \"chart_data\": [ { \"competitor\": \"Microsoft\", \"revenue\": 210, \"profit_margin\": 30 }, { \"competitor\": \"Google\", \"revenue\": 180, \"profit_margin\": 25 }, { \"competitor\": \"Apple\", \"revenue\": 250, \"profit_margin\": 35 } ] } ]. Use in Nivo: <ResponsiveBar data={chart_data} indexBy=\"competitor\" keys={[\"revenue\", \"profit_margin\"]} groupMode=\"grouped\" />.\n\nIf 'additional_information:' is provided, include it as a key named 'additional_information' with the text as a string.",
+    "variables": {
+      "main_company": "Enter the main company name (e.g., Microsoft).",
+      "industry": "Enter the industry or market sector (e.g., Software Services)."
+    }
+  },
+  {
+    "title": "Operational Capacity and Geographic Presence",
+    "description": "Evaluate the geographic distribution and operational capacity of competitors within the same industry.",
+    "category": "Competitive Analysis",
+    "prompt_template": "Assess the operational capacity and geographic presence of {{main_company}} and its competitors in the {{industry}} sector. Include insights on production volume, locations, infrastructure scale, and workforce size. Highlight strong regional presences and areas with potential capacity gaps.",
+    "output_format": "Return ONLY a valid JSON array with the following schema: [ { \"type_of_chart\": \"Choropleth\", \"chart_data\": [ { \"id\": \"string (ISO 3166-1 alpha-2 or alpha-3 country code, e.g., 'US', 'CN', 'DE')\", \"value\": number (presence or capacity indicator, positive number) } ] } ]. Example structure: [ { \"type_of_chart\": \"Choropleth\", \"chart_data\": [ { \"id\": \"US\", \"value\": 90 }, { \"id\": \"CN\", \"value\": 70 }, { \"id\": \"DE\", \"value\": 40 } ] } ]. If 'additional_information:' is provided, include it as a key named 'additional_information' with the text as a string. For Nivo Choropleth: Use <ResponsiveChoropleth data={chart_data} domain=\"auto\" features={geoData} /> where 'id' matches a feature in the provided GeoJSON (e.g., country codes), and 'value' determines the color intensity.",
+    "variables": {
+      "main_company": "Enter the main company name (e.g., Toyota).",
+      "industry": "Enter the industry or market sector (e.g., Automotive Manufacturing)."
+    }
+  },
+  {
+    "title": "Innovation and Sustainability Comparison",
+    "description": "Compare companies based on their level of innovation, R&D investment, and sustainability initiatives.",
+    "category": "Competitive Analysis",
+    "prompt_template": "Compare {{main_company}} with its main competitors in the {{industry}} sector regarding innovation and sustainability. Evaluate R&D investments, patent activity, technology adoption, and environmental or social initiatives. Identify which competitors lead in innovation and which lag behind.",
+    "output_format": "Return ONLY a valid JSON array with the following schema: [ { \"type_of_chart\": \"Radar\", \"chart_data\": [ { \"competitor\": \"string\", \"dimension\": \"string (e.g., 'R&D', 'Innovation', 'Sustainability')\", \"value\": number (score, positive number) } ] } ]. Example structure: [ { \"type_of_chart\": \"Radar\", \"chart_data\": [ { \"competitor\": \"Siemens\", \"dimension\": \"R&D\", \"value\": 80 }, { \"competitor\": \"Siemens\", \"dimension\": \"Innovation\", \"value\": 75 }, { \"competitor\": \"Siemens\", \"dimension\": \"Sustainability\", \"value\": 60 }, { \"competitor\": \"GE\", \"dimension\": \"R&D\", \"value\": 70 }, { \"competitor\": \"GE\", \"dimension\": \"Innovation\", \"value\": 65 }, { \"competitor\": \"GE\", \"dimension\": \"Sustainability\", \"value\": 55 } ] } ]. If 'additional_information:' is provided, include it as a key named 'additional_information' with the text as a string. For Nivo Radar: Use <ResponsiveRadar data={chart_data} keys={['Siemens', 'GE', ...]} indexBy=\"dimension\" /> where 'keys' lists unique competitors, and 'dimension' defines the radar axes.",
+    "variables": {
+      "main_company": "Enter the main company name (e.g., Siemens).",
+      "industry": "Enter the industry or market sector (e.g., Industrial Technology)."
+    }
+  },
+  {
+    "title": "Strategic Documents and Partnerships Analysis",
+    "description": "Extract and summarize relationships, partnerships, and regulatory documents influencing competitiveness.",
+    "category": "Competitive Analysis",
+    "prompt_template": "Using generative AI-driven document analysis, summarize key insights from environmental permits, contracts, government filings, and partnerships related to {{main_company}} and its competitors in the {{industry}} sector. Identify trends in alliances, projects, and collaborations impacting competitiveness.",
+    "output_format": "Return ONLY a valid JSON array with the following schema: [ { \"type_of_chart\": \"ScatterPlot\", \"chart_data\": [ { \"id\": \"string (entity or project name)\", \"x\": number (investment or project scale), \"y\": number (impact or benefit level), \"size\": number (duration or relevance, positive number) } ] } ]. Example structure: [ { \"type_of_chart\": \"ScatterPlot\", \"chart_data\": [ { \"id\": \"Partnership A\", \"x\": 60, \"y\": 85, \"size\": 25 }, { \"id\": \"Project B\", \"x\": 40, \"y\": 70, \"size\": 15 } ] } ]. If 'additional_information:' is provided, include it as a key named 'additional_information' with the text as a string. For Nivo ScatterPlot: Use <ResponsiveScatterPlot data={[{ id: 'group', data: chart_data }]} /> where 'chart_data' is mapped as points with 'x', 'y', and 'size'.",
+    "variables": {
+      "main_company": "Enter the main company name (e.g., Shell).",
+      "industry": "Enter the industry or market sector (e.g., Energy and Petrochemicals)."
+    }
+  },
+  {
+    "title": "Customer and Market Segment Insights",
+    "description": "Analyze customer segments targeted by competitors to identify positioning opportunities and underserved markets.",
+    "category": "Competitive Analysis",
+    "prompt_template": "Analyze the customer base and market segments targeted by {{main_company}} and its competitors in the {{industry}} sector. Identify customer demographics, segments served, and focus levels per company. Highlight emerging or underpenetrated segments that {{main_company}} could pursue.",
+    "output_format": "Return ONLY a valid JSON array with the following schema: [ { \"type_of_chart\": \"Sunburst\", \"chart_data\": { \"name\": \"string (root name, e.g., 'Market Segments')\", \"children\": [ { \"name\": \"string (segment)\", \"value\": number (importance or percentage, positive number) }, { \"name\": \"string (segment)\", \"children\": [ { \"name\": \"string (subsegment)\", \"value\": number (importance or percentage, positive number) } ] } ] } } ]. Example structure: [ { \"type_of_chart\": \"Sunburst\", \"chart_data\": { \"name\": \"Market Segments\", \"children\": [ { \"name\": \"Retail\", \"value\": 40 }, { \"name\": \"Enterprise\", \"children\": [ { \"name\": \"Finance\", \"value\": 20 }, { \"name\": \"Healthcare\", \"value\": 15 } ] } ] } } ]. If 'additional_information:' is provided, include it as a key named 'additional_information' with the text as a string. For Nivo Sunburst: Use <ResponsiveSunburst data={chart_data} /> where 'children' defines hierarchical segments, and 'value' determines segment size.",
+    "variables": {
+      "main_company": "Enter the main company name (e.g., Amazon).",
+      "industry": "Enter the industry or market sector (e.g., E-commerce)."
+    }
   }
 ]
