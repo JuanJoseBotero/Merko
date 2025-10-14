@@ -8,7 +8,6 @@ import CompLine from '../Components/DashboardComponents/CompLine';
 import CompBump from '../Components/DashboardComponents/CompBump';
 import CompPie from '../Components/DashboardComponents/CompPie';
 import CompRadar from '../Components/DashboardComponents/CompRadar';
-import { ResponsivePie } from '@nivo/pie';
 import "../css/dashboard.css"
 
 // iterface de las propiedades del chart
@@ -22,11 +21,12 @@ const colors = { scheme: 'tableau10' }
 
 export default function Dashboard() {
 
-  const [location, setLocation] = React.useState(useLocation());
-  const navigate = useNavigate();
+  const [location, setLocation] = React.useState(useLocation());  
 
   // Obtener los datos de los graficos desde la pagina anterior
-  const response = location.state as {responseData: ChartProps[]};
+  const dataa = location.state as {responseData: ChartProps[]};
+
+  console.log(dataa.responseData);
 
   // Funcion para seleccionar que grafico usar
   const chart = (item:ChartProps, id:number) => {

@@ -17,6 +17,7 @@
     "@nivo/radar": "^0.99.0",
     "@tailwindcss/vite": "^4.1.14",
     "axios": "^1.12.2",
+    "lucide-react": "^0.545.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-grid-layout": "^1.5.2",

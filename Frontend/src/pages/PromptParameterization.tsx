@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/PromptParameterization.css";
 import "../css/Icons/Loader.css"
+import { Info } from "lucide-react";
 
 // Definir la interfaz para el objeto Prompt, que describe su estructura
 interface Prompt {
@@ -37,6 +38,9 @@ export default function PromptParameterizationPage() {
 
   // Estado para manejar el estado de carga durante las solicitudes al backend
   const [loading, setLoading] = useState(false);
+
+  // Estado para almacenar la variable que está siendo hovereada
+  const [hoveredVar, setHoveredVar] = useState<string | null>(null);
 
   // Efecto para actualizar la vista previa del prompt cuando cambian los valores o la información adicional
   useEffect(() => {
@@ -105,8 +109,17 @@ export default function PromptParameterizationPage() {
         <div className="space-y-3 border rounded-lg border-black/10 p-2 responsive-variables">
           {/* Mapear las variables del prompt para crear campos de entrada */}
           {Object.keys(prompt.variables).map((key) => (
-            <div key={key}>
-              <label className="block heading-4 mb-2 capitalize">{key}</label>
+            <div key={key} className="relative mb-6">
+              <label className="block heading-4 mb-2 capitalize flex items-center gap-2">
+                {key}
+                {/* Ícono de información adicional*/}
+                <Info
+                  size={18}
+                  className="text-gray-500 cursor-pointer hover:text-blue-400 transition"
+                  onMouseEnter={() => setHoveredVar(key)}
+                  onMouseLeave={() => setHoveredVar(null)}
+                />
+              </label>
               <input
                 type="text"
                 value={values[key] || ""} // Vincular al estado, por defecto cadena vacía
@@ -114,6 +127,14 @@ export default function PromptParameterizationPage() {
                 className="border border-gray-300 rounded-xl px-4 py-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 placeholder={`Enter ${key}`} // Texto de marcador de posición
               />
+              {/* Tooltip flotante */}
+              {hoveredVar === key && (
+                <div className="info-card">
+                  <p className="text-sm">
+                    {prompt.variables[key] || "No description available"}
+                  </p>
+                </div>
+              )}
             </div>
           ))}
         </div>
