@@ -12,7 +12,7 @@ export default function HomePage() {
           <h2 className="heading-2">
             Explore data, spot opportunities, and make decisions with insight.
           </h2>
-          <Link to="/about" className="main-button button-text">
+          <Link to="/catalog" className="main-button button-text">
             Learn more
           </Link>
         </div>
