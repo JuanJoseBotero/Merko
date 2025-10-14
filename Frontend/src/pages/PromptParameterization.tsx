@@ -76,6 +76,8 @@ export default function PromptParameterizationPage() {
         {
           prompt: previewPrompt,
           title: prompt.title,
+          prompt_id: prompt.id,
+          variables: values,
         }
       );
 
