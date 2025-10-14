@@ -8,18 +8,22 @@ interface Category {
 }
 
 export default function Catalog() {
+  // Estado para almacenar las categorías obtenidas del backend
   const [categories, setCategories] = useState<Category[]>([]);
 
+  // Al montar el componente, obtiene las categorías desde la API
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/catalog/categories/")
       .then((res) => res.json())
-      .then((data) => setCategories(data))
+      .then((data) => setCategories(data)) // guarda los datos en el estado
       .catch((err) => console.error("Error fetching categories:", err));
   }, []);
 
   return (
     <div className="space-y-8 resposive-big-container">
       <h1 className="heading-1 font-bold">New Analysis</h1>
+
+      {/* Renderiza una tarjeta por cada categoría */}
       <div className="responsive-grid">
         {categories.map((cat) => (
           <div
@@ -28,6 +32,8 @@ export default function Catalog() {
           >
             <h2 className="heading-2">{cat.name}</h2>
             <p className="body">{cat.description}</p>
+
+            {/* Enlace que lleva a la lista de prompts, pasando la categoría seleccionada */}
             <Link
               className="main-button"
               to="/catalog/prompt-list"

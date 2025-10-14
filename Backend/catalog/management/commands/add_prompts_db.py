@@ -43,16 +43,25 @@ class Command(BaseCommand):
                 title=title,
             ).first()
 
-            # Create it if it does not exist
-            if not exists and category:
-                Prompt.objects.create(
-                    title=title,
-                    description=description,
-                    category=category,
-                    prompt_template=prompt_template,
-                    output_format=output_format,
-                    variables=variables,
-                )
-                self.stdout.write(self.style.SUCCESS(f"Added prompt: {title}"))
-            else:
-                self.stdout.write(self.style.WARNING(f"Prompt already exists: {title}"))
+            if category:
+                if exists:
+                    # Actualiza el prompt existente
+                    exists.description = description
+                    exists.category = category
+                    exists.prompt_template = prompt_template
+                    exists.output_format = output_format
+                    exists.variables = variables
+                    exists.save()
+                    self.stdout.write(self.style.SUCCESS(f"Updated prompt: {title}"))
+                else:
+                    # Crea si no existe
+                    Prompt.objects.create(
+                        title=title,
+                        description=description,
+                        category=category,
+                        prompt_template=prompt_template,
+                        output_format=output_format,
+                        variables=variables,
+                    )
+                    self.stdout.write(self.style.SUCCESS(f"Added prompt: {title}"))
+

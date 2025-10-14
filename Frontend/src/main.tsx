@@ -6,6 +6,10 @@ import HomePage from "./pages/HomePage";
 import Catalog from "./pages/Catalog";
 import PromptList from "./pages/PromptList";
 import PromptParameterization from "./pages/PromptParameterization";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import PrivateRoute from "./Components/CommonComponents/PrivateRoute";
+import Dashboard from "./pages/Dashboard";
 import App from "./App";
 import { Link } from "react-router-dom";
 
@@ -17,21 +21,42 @@ const router = createBrowserRouter([
     children: [
       {
         // Pagina principal
-        path: "/",
+        path: "",
         element: <HomePage />,
       },
       {
         // Pagina del catalogo de analisis
-        path: "/catalog",
+        path: "catalog",
         element: <Catalog />,
       },
       {
-        path: "/catalog/prompt-list",
+        path: "catalog/prompt-list",
         element: <PromptList />,
       },
       {
+        /* Ruta protegida */
         path: "/catalog/prompt-list/prompt-parameterization",
+        element: (
+        <PrivateRoute>
+          <PromptParameterization /> 
+        </PrivateRoute>
+        ),
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
+      },
+      {
+        path: "catalog/prompt-list/prompt-parameterization",
         element: <PromptParameterization />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard/>,
       },
     ],
     ErrorBoundary: () => {
@@ -45,6 +70,7 @@ const router = createBrowserRouter([
       );
     },
   },
+  
 ]);
 
 createRoot(document.getElementById("root")!).render(

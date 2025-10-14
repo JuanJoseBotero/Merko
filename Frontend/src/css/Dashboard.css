@@ -1,0 +1,28 @@
+.item-small, .item-large {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+/* móviles */
+@media (min-width: 768px) {
+    .item-small {
+        flex: 1 1 336px;
+    }
+    .item-large {
+        flex: 1 1 100%;
+    }
+}
+
+
+/* escritorio */
+@media (min-width: 1024px) {
+    .item-small {
+        width: 31%;
+    }
+    .item-large {
+        flex: 1 1 48%;
+    }
+}
