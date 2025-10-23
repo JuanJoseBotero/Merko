@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+// Para icono de go back
+import { ArrowLeft } from "lucide-react";
 
 // Interfaz para definir la estructura de un prompt
 interface Prompt {
@@ -36,24 +38,32 @@ const PromptListPage: React.FC = () => {
 
   return (
     <div className="resposive-big-container">
+      <div className="mb-6 pb-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-black hover:-translate-y-0.5 hover:text-gray-700 font-semibold transition-all"
+        >
+          <ArrowLeft size={20} />
+          Go back
+        </button>
+      </div>
       <h1 className="heading-2">{categoryName}</h1>
 
+      {/* Lista de prompts */}
       <div className="mt-6 space-y-4">
-        {prompts.map((p) => (
-          <button
-            key={p.id}
-            // Navegar a la página de parametrización, pasando el prompt y categoryName
-            onClick={() =>
-              navigate("/catalog/prompt-list/prompt-parameterization", {
-                state: { prompt: p, categoryName }, // Enviar datos a la siguiente página
-              })
-            }
-            className="w-full text-left p-4 rounded-lg shadow bg-white hover:bg-blue-50 transition"
-          >
-            <h2 className="heading-3">{p.title}</h2>
-            <p className="body">{p.description}</p>
-          </button>
-        ))}
+        {prompts.length > 0 ? (
+          prompts.map((p) => (
+            <div
+              key={p.id}
+              className="w-full text-left p-5 rounded-2xl shadow bg-white hover:bg-blue-50 transition cursor-default"
+            >
+              <h2 className="heading-3 font-semibold">{p.title}</h2>
+              <p className="body text-gray-600 mt-2">{p.description}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-500">No prompts found for this category.</p>
+        )}
       </div>
     </div>
   );

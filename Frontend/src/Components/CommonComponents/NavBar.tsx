@@ -29,7 +29,10 @@ export default function NavBar() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/catalog">Catalog</Link>
+            <Link to="/catalog">Categories</Link>
+          </li>
+          <li>
+            <Link to="/prompts">Prompts</Link>
           </li>
           <li>
             <Link to="/contact">Contact</Link>

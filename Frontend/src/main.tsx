@@ -4,6 +4,7 @@ import "./css/index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Catalog from "./pages/Catalog";
+import PromptsPage from "./pages/PromptsPage";
 import PromptList from "./pages/PromptList";
 import PromptParameterization from "./pages/PromptParameterization";
 import LoginPage from "./pages/LoginPage";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           <PromptParameterization /> 
         </PrivateRoute>
         ),
+      },
+      {
+        path: "/prompts",
+        element: <PromptsPage/>,
       },
       {
         path: "/login",
