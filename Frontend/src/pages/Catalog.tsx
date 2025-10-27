@@ -8,14 +8,12 @@ interface Category {
 }
 
 export default function Catalog() {
-  // Estado para almacenar las categorías obtenidas del backend
   const [categories, setCategories] = useState<Category[]>([]);
 
-  // Al montar el componente, obtiene las categorías desde la API
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/catalog/categories/")
       .then((res) => res.json())
-      .then((data) => setCategories(data)) // guarda los datos en el estado
+      .then((data) => setCategories(data)) 
       .catch((err) => console.error("Error fetching categories:", err));
   }, []);
 

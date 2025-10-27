@@ -12,24 +12,16 @@ interface Prompt {
   variables: Record<string, string>;
 }
 
-// Componente para mostrar la lista de prompts de una categoría
 const PromptListPage: React.FC = () => {
-  // useLocation obtiene datos pasados desde la ruta anterior
   const location = useLocation();
-  // useNavigate permite redirigir a otra página
   const navigate = useNavigate();
-  // Desestructurar categoryId y categoryName; usamos || {} para evitar errores si location.state es undefined
   const { categoryId, categoryName } = location.state || {};
 
-  // Estado para almacenar la lista de prompts
   const [prompts, setPrompts] = useState<Prompt[]>([]);
 
-  // Efecto para cargar prompts del backend cuando cambia categoryId
   useEffect(() => {
-    // Si no hay categoryId, no hacemos nada
     if (!categoryId) return;
 
-    // Solicitud fetch al backend; la URL incluye el categoryId como parámetro
     fetch(`http://127.0.0.1:8000/api/catalog/prompts/?category=${categoryId}`)
       .then((res) => res.json()) // Convertir la respuesta a JSON
       .then((data) => setPrompts(data)) // Guardar los prompts en el estado

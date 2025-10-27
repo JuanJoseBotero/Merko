@@ -10,7 +10,6 @@ import CompPie from '../Components/DashboardComponents/CompPie';
 import CompRadar from '../Components/DashboardComponents/CompRadar';
 import "../css/dashboard.css"
 
-// iterface de las propiedades del chart
 interface ChartProps {
   type_of_chart: string;
   chart_data: any;
@@ -23,7 +22,6 @@ export default function Dashboard() {
 
   const [location, setLocation] = React.useState(useLocation());  
 
-  // Obtener los datos de los graficos desde la pagina anterior
   const dataa = location.state as {responseData: ChartProps[]};
 
   console.log(dataa.responseData);

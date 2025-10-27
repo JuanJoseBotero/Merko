@@ -16,6 +16,7 @@ export default function LoginPage() {
     const data = await response.json();
     if (response.ok) {
       localStorage.setItem("token", data.access);
+      window.dispatchEvent(new Event("storage"));
       navigate("/");
     } else {
       alert("Invalid credentials");

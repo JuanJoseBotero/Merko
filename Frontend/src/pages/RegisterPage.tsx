@@ -33,7 +33,13 @@ export default function RegisterPage() {
         navigate("/login");
       } else {
         const data = await response.json();
-        setError(data?.message || "Registration failed. Try again.");
+        console.error("Registration error:", data);
+
+        const formattedErrors = Object.entries(data)
+          .map(([field, messages]) => `${field}: ${(messages as string[]).join(", ")}`)
+          .join(" | ");
+
+        setError(formattedErrors || "Registration failed. Try again.");
       }
     } catch (err) {
       setError("Error connecting to the server.");
