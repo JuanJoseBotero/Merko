@@ -1,136 +1,237 @@
-// src/components/PromptDashboardModal.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Info, ChevronRight } from "lucide-react";
+import "../../css/PromptParameterization.css";
+import "../../css/Icons/Loader.css";
 
-interface PromptDashboardModalProps {
-  onClose: () => void;
-  onConfirm: () => void;
+interface Prompt {
+  id: number;
+  title: string;
+  description: string;
+  prompt_template: string;
+  variables: Record<string, string>;
 }
 
-export default function PromptDashboardModal({
-  onClose,
-  onConfirm,
-}: PromptDashboardModalProps) {
-  const [formData, setFormData] = useState({
-    product_type: "",
-    top_x_number: "",
-    time_period: "",
-    category: "",
-    additional_info: "",
-  });
+interface PromptModalProps {
+  prompts: { id: number }[]; // solo ids seleccionados
+  onClose: () => void;
+}
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+export default function PromptModal({ prompts, onClose }: PromptModalProps) {
+  const [promptList, setPromptList] = useState<Prompt[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [values, setValues] = useState<Record<string, string>>({});
+  const [additionalInfo, setAdditionalInfo] = useState("");
+  const [previewPrompt, setPreviewPrompt] = useState("");
+  const [hoveredVar, setHoveredVar] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const currentPrompt = promptList[currentIndex];
+
+  // Cargar datos completos de los prompts desde el backend
+  useEffect(() => {
+    const fetchPrompts = async () => {
+      try {
+        const responses = await Promise.all(
+          prompts.map((p) =>
+            axios.get(`http://127.0.0.1:8000/api/catalog/prompts/${p.id}/`)
+          )
+        );
+        setPromptList(responses.map((r) => r.data));
+      } catch (error) {
+        console.error("Error fetching prompts:", error);
+      }
+    };
+    fetchPrompts();
+  }, [prompts]);
+
+  // Actualizar vista previa
+  useEffect(() => {
+    if (!currentPrompt) return;
+    let template = currentPrompt.prompt_template;
+    Object.keys(values).forEach((key) => {
+      template = template.replace(`{{${key}}}`, values[key] || `{{${key}}}`);
+    });
+    if (additionalInfo.trim() !== "") {
+      template += `\n\nAdditional information ${additionalInfo}`;
+    }
+    setPreviewPrompt(template);
+  }, [values, additionalInfo, currentPrompt]);
+
+  // Manejo de cambios
+  const handleChange = (key: string, value: string) => {
+    setValues((prev) => ({ ...prev, [key]: value }));
   };
 
+  // Guardar y pasar al siguiente prompt
+  const handleNext = async () => {
+    if (!currentPrompt) return;
+
+    const isLast = currentIndex === promptList.length - 1;
+
+    // Construir la data del prompt actual
+    const payload = {
+      prompt: previewPrompt,
+      title: currentPrompt.title,
+      prompt_id: currentPrompt.id,
+      variables: values,
+    };
+
+    try {
+      if (isLast) {
+        // Último prompt → sí esperamos la respuesta y mostramos loader
+        setLoading(true);
+        await axios.post(
+          "http://127.0.0.1:8000/api/analysis/request-information-agent/",
+          payload
+        );
+        setLoading(false);
+        onClose(); // cerrar modal
+      } else {
+        // Prompts intermedios → enviar en segundo plano sin bloquear
+        axios
+          .post(
+            "http://127.0.0.1:8000/api/analysis/request-information-agent/",
+            payload
+          )
+          .catch((error) => console.error("Error sending prompt:", error));
+
+        // Avanzar al siguiente sin esperar respuesta
+        setValues({});
+        setAdditionalInfo("");
+        setHoveredVar(null);
+        setCurrentIndex((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.error("Error sending prompt:", error);
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+        <div className="loader">
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__ball"></div>
+        </div>
+        <p className="heading-3 text-white">This will take few minutes</p>
+      </div>
+    );
+  }
+
+  if (promptList.length === 0) return null;
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
-      {/* Modal */}
-      <div className="bg-white rounded-xl w-[90%] max-w-4xl shadow-xl p-8 relative">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+      <div
+        className="bg-white p-6 rounded-2xl shadow-xl max-w-6xl w-[90%] h-[90vh] overflow-auto relative"
+        onClick={(e) => e.stopPropagation()} // evitar cierre accidental
+      >
         {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="heading-2 font-bold">Prompts Editor</h2>
-          <p className="text-gray-500 text-sm">1/5</p>
+        <div className="flex justify-between items-center border-b pb-3 mb-4">
+          <h1 className="heading-2">
+            {currentPrompt.title}
+          </h1>
+          <span className="text-gray-500 font-medium">
+            {currentIndex + 1} / {promptList.length}
+          </span>
         </div>
 
-        {/* Subheader */}
-        <h3 className="text-lg font-semibold mb-6">
-          Import Analysis / Import Analyzer by Product and Period
-        </h3>
-
-        {/* Formulario */}
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">Product type</label>
-              <input
-                name="product_type"
-                value={formData.product_type}
-                onChange={handleChange}
-                placeholder="Enter product_type"
-                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">Top x number</label>
-              <input
-                name="top_x_number"
-                value={formData.top_x_number}
-                onChange={handleChange}
-                placeholder="Enter top_x_number"
-                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">Time period</label>
-              <input
-                name="time_period"
-                value={formData.time_period}
-                onChange={handleChange}
-                placeholder="Enter time_period"
-                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium">Category</label>
-              <input
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                placeholder="Enter category"
-                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:ring-2 focus:ring-blue-400"
-              />
-            </div>
+        {/* Variables */}
+        <div className="flex flex-wrap gap-2 max-h-[75vh] overflow-y-auto">
+          <div className="space-y-3 border rounded-lg border-black/10 p-2 flex-1 min-w-[280px]">
+            {Object.keys(currentPrompt.variables).map((key) => (
+              <div key={key} className="relative mb-6">
+                <label className="block heading-4 mb-2 capitalize flex items-center gap-2">
+                  {key}
+                  <Info
+                    size={18}
+                    className="text-gray-500 cursor-pointer hover:text-blue-400 transition"
+                    onMouseEnter={() => setHoveredVar(key)}
+                    onMouseLeave={() => setHoveredVar(null)}
+                  />
+                </label>
+                <input
+                  type="text"
+                  value={values[key] || ""}
+                  onChange={(e) => handleChange(key, e.target.value)}
+                  className="border border-gray-300 rounded-xl px-4 py-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  placeholder={`Enter ${key}`}
+                />
+                {hoveredVar === key && (
+                  <div className="info-card">
+                    <p className="text-sm">
+                      {currentPrompt.variables[key] ||
+                        "No description available"}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
 
-          {/* Vista previa */}
-          <div className="border border-gray-300 rounded-lg p-4">
-            <h4 className="font-semibold mb-2">Prompt Preview</h4>
-            <p className="text-gray-700 text-sm">
-              Analyze the market for <b>{formData.product_type || "product_type"}</b> and provide a
-              detailed breakdown of the <b>{formData.top_x_number || "top_x_number"}</b> major
-              importers over the last <b>{formData.time_period || "time_period"}</b>. For each
-              importer, identify the specific product types they import within the category{" "}
-              <b>{formData.category || "category"}</b>.
+          {/* Preview */}
+          <div className="rounded-lg p-6 border border-black/10 flex-1 min-w-[280px]">
+            <h2 className="heading-3 mb-4">Prompt Preview</h2>
+            <p className="body whitespace-pre-line border rounded-lg border-black/10 p-2">
+              {currentPrompt.prompt_template.split(/({{.*?}})/g).map(
+                (part, idx) => {
+                  const match = part.match(/{{(.*?)}}/);
+                  if (match) {
+                    const key = match[1];
+                    const value = values[key] || key;
+                    return <strong key={idx}>{value}</strong>;
+                  }
+                  return <span key={idx}>{part}</span>;
+                }
+              )}
             </p>
-
-            <div className="mt-4">
-              <label className="block text-sm font-medium">
-                Additional information
-              </label>
+            <div className="mt-8 mb-4">
+              <label className="heading-4">Additional information</label>
               <textarea
-                name="additional_info"
-                value={formData.additional_info}
-                onChange={handleChange}
+                value={additionalInfo}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+                className="border border-gray-300 rounded-xl mt-5 px-4 py-3 w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 placeholder="Add any extra details here..."
-                className="border border-gray-300 rounded-lg px-3 py-2 w-full mt-2 h-24 focus:ring-2 focus:ring-blue-400"
+                rows={4}
               />
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between mt-6">
-          <div className="text-yellow-800 bg-yellow-100 px-4 py-2 rounded-lg text-sm font-medium">
-            Make sure to put the correct information, you couldn’t go back
+        <div className="w-full mt-8 pt-4 flex items-center justify-between gap-4">
+          {/* Mensaje de advertencia */}
+          <div className="bg-yellow-200 border border-yellow-300 text-yellow-800 px-4 py-3 rounded-lg text-sm font-semibold max-w-[60%]">
+            Make sure to put the correct information. You couldn’t go back.
           </div>
 
-          <div className="flex gap-3">
+          {/* Botones */}
+          <div className="flex items-center gap-4">
             <button
               onClick={onClose}
-              className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold"
+              className="h-12 px-6 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow transition-all"
             >
               Cancel
             </button>
+
             <button
-              onClick={onConfirm}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold"
+              onClick={handleNext}
+              disabled={Object.keys(currentPrompt.variables).some(
+                (key) => !values[key]
+              )}
+              className={`h-12 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition-all flex items-center gap-2 ${
+                Object.keys(currentPrompt.variables).some((key) => !values[key])
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
+              }`}
             >
-              →
+              Next <ChevronRight size={18} />
             </button>
           </div>
         </div>

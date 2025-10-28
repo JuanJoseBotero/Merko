@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import PromptDashboardModal from "../Components/PromptsComponents/promptModal";
-
+import PromptModal from "../Components/PromptsComponents/promptModal";
 import { Link } from "react-router-dom";
 
 interface Prompt {
@@ -28,24 +27,8 @@ export default function PromptsPage() {
   const maxSelection = 5;
   const minSelection = 5;
   const [showModal, setShowModal] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
-  // 🔄 Cambiar selección
-  const togglePromptSelection = (prompt: Prompt) => {
-    setSelectedPrompts((prev) => {
-      const isSelected = prev.some((p) => p.id === prompt.id);
-      if (isSelected) {
-        return prev.filter((p) => p.id !== prompt.id);
-      } else {
-        if (prev.length < maxSelection) {
-          return [...prev, prompt];
-        } else {
-          alert("You can only select up to 5 prompts");
-          return prev;
-        }
-      }
-    });
-  };
 
   // Escuchar cambios en el token
   useEffect(() => {
@@ -117,6 +100,24 @@ export default function PromptsPage() {
     return category ? category.name : "Unknown";
   };
 
+  // Cambiar selección (solo si esta logeado)
+  const togglePromptSelection = (prompt: Prompt) => {
+    if (!isLoggedIn) return;
+    setSelectedPrompts((prev) => {
+      const isSelected = prev.some((p) => p.id === prompt.id);
+      if (isSelected) {
+        return prev.filter((p) => p.id !== prompt.id);
+      } else {
+        if (prev.length < maxSelection) {
+          return [...prev, prompt];
+        } else {
+          setShowLimitModal(true);
+          return prev;
+        }
+      }
+    });
+  };
+
   return (
     <div className="space-y-8 resposive-big-container">
       <h1 className="heading-1 font-bold">Explore Prompts</h1>
@@ -133,7 +134,7 @@ export default function PromptsPage() {
         </a>
       </p>
 
-      {/* 🔍 Barra de búsqueda y filtro */}
+      {/* Barra de búsqueda y filtro */}
       <div className="flex flex-wrap items-center gap-4 justify-between mt-4">
         <input
           type="text"
@@ -191,7 +192,7 @@ export default function PromptsPage() {
         )}
       </div>
 
-      {/* 🧩 Lista de prompts */}
+      {/* Lista de prompts */}
       <div className="responsive-grid">
         {currentPrompts.length > 0 ? (
           currentPrompts.map((prompt) => {
@@ -214,12 +215,15 @@ export default function PromptsPage() {
                   >
                     {prompt.title}
                   </h2>
-                  <input
-                    type="checkbox"
-                    checked={isSelected}
-                    readOnly
-                    className="w-5 h-5 text-blue-600 accent-blue-600"
-                  />
+                  {isLoggedIn && (
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      readOnly
+                      className="w-5 h-5 text-blue-600 accent-blue-600 cursor-pointer flex-shrink-0"
+                      style={{ minWidth: "1rem", minHeight: "1rem" }}
+                    />
+                  )}
                 </div>
                 <p className="body text-gray-600 mt-2">{prompt.description}</p>
                 <span className="text-sm text-blue-600 font-medium">
@@ -233,7 +237,7 @@ export default function PromptsPage() {
         )}
       </div>
 
-      {/* 🔁 Paginación */}
+      {/* Paginación */}
       <div className="flex justify-end items-center gap-4 mt-6 fixed bottom-10 right-10">
         {currentPage > 1 && (
           <button
@@ -253,15 +257,33 @@ export default function PromptsPage() {
         )}
       </div>
       
+      {/* Modal de creacion */}
       {showModal && (
-        <PromptDashboardModal
+        <PromptModal
+          prompts={selectedPrompts} // ← lista de prompts seleccionados
           onClose={() => setShowModal(false)}
-          onConfirm={() => {
-            setShowModal(false);
-          }}
         />
       )}
 
+      {/* Modal de límite */}
+      {showLimitModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-white/40 backdrop-blur-sm z-50">
+          <div className="bg-white rounded-2xl p-6 shadow-xl text-center w-[350px]">
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              Selection Limit Reached
+            </h2>
+            <p className="text-gray-600 mb-4">
+              You can select a maximum of 5 prompts.
+            </p>
+            <button
+              onClick={() => setShowLimitModal(false)}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
