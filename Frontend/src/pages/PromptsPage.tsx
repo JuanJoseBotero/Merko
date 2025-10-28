@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import PromptDashboardModal from "../Components/PromptsComponents/promptModal";
+
 import { Link } from "react-router-dom";
 
 interface Prompt {
@@ -250,6 +252,16 @@ export default function PromptsPage() {
           </button>
         )}
       </div>
+      
+      {showModal && (
+        <PromptDashboardModal
+          onClose={() => setShowModal(false)}
+          onConfirm={() => {
+            setShowModal(false);
+          }}
+        />
+      )}
+
     </div>
   );
 }
