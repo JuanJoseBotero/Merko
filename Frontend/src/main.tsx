@@ -11,6 +11,8 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import PrivateRoute from "./Components/CommonComponents/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
+import DashboardV1 from "./pages/DashboardV1";
+
 import App from "./App";
 import { Link } from "react-router-dom";
 
@@ -63,6 +65,11 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: <Dashboard/>,
       },
+      {
+        path: "dashboardV1",
+        element: <DashboardV1 />,
+      },
+
     ],
     ErrorBoundary: () => {
       return (

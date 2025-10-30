@@ -4,6 +4,7 @@ from .serializers import PromptSerializer, CategorySerializer
 
 
 # Read-only, connects to the category serializer to display all categories statically.
+
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -12,7 +13,6 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 # Use the serializer for prompts
 class PromptListAPIView(generics.ListAPIView):
     serializer_class = PromptSerializer
-
     def get_queryset(self):
         # Get all prompts and filter them by category
         queryset = Prompt.objects.all()

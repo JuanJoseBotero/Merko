@@ -3,6 +3,7 @@ import axios from "axios";
 import { Info, ChevronRight } from "lucide-react";
 import "../../css/PromptParameterization.css";
 import "../../css/Icons/Loader.css";
+import { useNavigate } from "react-router-dom";
 
 interface Prompt {
   id: number;
@@ -17,6 +18,7 @@ interface PromptModalProps {
   onClose: () => void;
 }
 
+
 export default function PromptModal({ prompts, onClose }: PromptModalProps) {
   const [promptList, setPromptList] = useState<Prompt[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -25,6 +27,13 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
   const [previewPrompt, setPreviewPrompt] = useState("");
   const [hoveredVar, setHoveredVar] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [dashboardName, setDashboardName] = useState("");
+  const [accumulatedResults, setAccumulatedResults] = useState<any[]>([]);
+  const [accumulatedUsedPrompts, setAccumulatedUsedPrompts] = useState<any[]>([]);
+
+
+  const navigate = useNavigate();
+
 
   const currentPrompt = promptList[currentIndex];
 
@@ -65,48 +74,62 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
 
   // Guardar y pasar al siguiente prompt
   const handleNext = async () => {
-    if (!currentPrompt) return;
+  if (!currentPrompt) return;
 
-    const isLast = currentIndex === promptList.length - 1;
+  const isLast = currentIndex === promptList.length - 1;
+  const username = localStorage.getItem("username"); 
 
-    // Construir la data del prompt actual
-    const payload = {
-      prompt: previewPrompt,
-      title: currentPrompt.title,
-      prompt_id: currentPrompt.id,
-      variables: values,
-    };
-
-    try {
-      if (isLast) {
-        // Último prompt → sí esperamos la respuesta y mostramos loader
-        setLoading(true);
-        await axios.post(
-          "http://127.0.0.1:8000/api/analysis/request-information-agent/",
-          payload
-        );
-        setLoading(false);
-        onClose(); // cerrar modal
-      } else {
-        // Prompts intermedios → enviar en segundo plano sin bloquear
-        axios
-          .post(
-            "http://127.0.0.1:8000/api/analysis/request-information-agent/",
-            payload
-          )
-          .catch((error) => console.error("Error sending prompt:", error));
-
-        // Avanzar al siguiente sin esperar respuesta
-        setValues({});
-        setAdditionalInfo("");
-        setHoveredVar(null);
-        setCurrentIndex((prev) => prev + 1);
-      }
-    } catch (error) {
-      console.error("Error sending prompt:", error);
-      setLoading(false);
-    }
+  const payload = {
+    prompt: previewPrompt,
+    title: currentPrompt.title,
+    prompt_id: currentPrompt.id,
+    variables: values,
+    last_prompt: false, 
+    dashboard_name: dashboardName,
   };
+
+  try {
+    setLoading(true);
+    const response = await axios.post(
+      "http://127.0.0.1:8000/api/analysis/request-information-agent/",
+      payload,
+    );
+    setLoading(false);
+
+    // Añadir respuesta actual al acumulado
+    const currentResult = response.data.result; // según cómo respondas backend
+    setAccumulatedResults(prev => [...prev, currentResult]);
+    setAccumulatedUsedPrompts(prev => [...prev, currentPrompt.title]);
+
+
+    if (isLast) {
+      // Cuando es el último prompt, enviar todo el acumulado para crear dashboard
+      const savePayload = {
+        dashboard_name: dashboardName,
+         // acumulado + último
+        diagrams: [...accumulatedResults, currentResult], 
+        usedPrompts: [...accumulatedUsedPrompts,currentPrompt.title],
+        username:username
+      };
+      const dashboard_response = await axios.post(
+        "http://127.0.0.1:8000/api/analysis/save-dashboard/",
+        savePayload,
+      );
+      onClose();
+      navigate("/dashboardV1", { state: { data: dashboard_response.data } });
+    } else {
+      // Limpiar inputs y avanzar
+      setValues({});
+      setAdditionalInfo("");
+      setHoveredVar(null);
+      setCurrentIndex(prev => prev + 1);
+    }
+  } catch (error) {
+    console.error("Error sending prompt:", error);
+    setLoading(false);
+  }
+};
+
 
   if (loading) {
     return (
@@ -125,6 +148,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
   }
 
   if (promptList.length === 0) return null;
+  const isLast = currentIndex === promptList.length - 1;
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
@@ -207,10 +231,20 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
         {/* Footer */}
         <div className="w-full mt-8 pt-4 flex items-center justify-between gap-4">
           {/* Mensaje de advertencia */}
-          <div className="bg-yellow-200 border border-yellow-300 text-yellow-800 px-4 py-3 rounded-lg text-sm font-semibold max-w-[60%]">
-            Make sure to put the correct information. You couldn’t go back.
-          </div>
+          <div className="flex items-center gap-3 bg-yellow-100 text-yellow-800 text-sm p-3 rounded-md mt-4">
+            <span>Make sure to put the correct information. You couldn’t go back.</span>
 
+            
+          </div>
+          {isLast && (
+              <input
+                type="text"
+                value={dashboardName}
+                onChange={(e) => setDashboardName(e.target.value)}
+                placeholder="Enter dashboard name"
+                className="ml-auto border border-yellow-400 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              />
+            )}
           {/* Botones */}
           <div className="flex items-center gap-4">
             <button
@@ -222,9 +256,9 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
 
             <button
               onClick={handleNext}
-              disabled={Object.keys(currentPrompt.variables).some(
-                (key) => !values[key]
-              )}
+              disabled={Object.keys(currentPrompt.variables).some((key) => !values[key]) ||
+                (isLast && dashboardName.trim() === "")
+              }
               className={`h-12 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition-all flex items-center gap-2 ${
                 Object.keys(currentPrompt.variables).some((key) => !values[key])
                   ? "opacity-50 cursor-not-allowed"

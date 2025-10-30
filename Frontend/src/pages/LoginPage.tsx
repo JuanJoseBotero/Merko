@@ -15,6 +15,7 @@ export default function LoginPage() {
     });
     const data = await response.json();
     if (response.ok) {
+      localStorage.setItem("username", data.username);
       localStorage.setItem("token", data.access);
       window.dispatchEvent(new Event("storage"));
       navigate("/");

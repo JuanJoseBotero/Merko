@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from catalog.models import Prompt
+from .models import Dashboard
+from account.models import User
 
 import unicodedata
 import time
@@ -13,8 +15,10 @@ from pytrends.request import TrendReq
 from pytrends.exceptions import TooManyRequestsError
 
 
+
 load_dotenv()
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
 
 def normalize_country(country: str) -> str:
     return ''.join(
@@ -129,14 +133,8 @@ def get_additional_data(prompt_id: int, variables: dict) -> str:
         return data
                 
 
-    
-
-
-
-
 @api_view(["POST"])
 def request_information_agent(request) -> Response:
-
     system_message = {
         "role": "system",
         "content": "You are a professional market analyst. Your primary goal "
@@ -149,35 +147,44 @@ def request_information_agent(request) -> Response:
     prompt = Prompt.objects.filter(title=request.data.get("title")).first()
     formatted_prompt = request.data.get("prompt")
 
-    if not formatted_prompt:
-        return Response(
-            {"result": "A prompt with empty parameters was sent"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-    print(request.data)
-    # Nuevo
-    prompt_id = request.data.get("prompt_id")
-    variables = request.data.get("variables", {})
-    trends_info = get_additional_data(prompt_id, variables)
-    complete_prompt = (
-        f"{formatted_prompt}\n\n"
-        f"Additional market data (source: Google Trends):\n{trends_info}\n\n"
-        f"{prompt.output_format}"
-    )
+    if not formatted_prompt or not prompt:
+        return Response({"result": "Invalid prompt."}, status=400)
 
-    print(f"COMPLETE PROMPT:\n{complete_prompt}")
+    complete_prompt = f'{formatted_prompt} \n {prompt.output_format}'
 
     chat_completion = client.chat.completions.create(
         model="gpt-4o-mini",
-        messages=[
-            system_message,
-            {"role": "user", "content": complete_prompt},
-        ],
+        messages=[system_message, {"role": "user", "content": complete_prompt}],
         response_format={"type": "json_object"},
         temperature=0.3,
     )
     response_content = chat_completion.choices[0].message.content
     parsed_json_response = json.loads(response_content)
-    print(f"Response:\n{parsed_json_response}")
 
-    return Response({"result": parsed_json_response}, status=status.HTTP_200_OK)
+    print(f"COMPLETE PROMPT: {complete_prompt}")
+    print(f"RESPONSE: {response_content}")
+
+    return Response({"result": parsed_json_response}, status=200)
+
+@api_view(["POST"])
+def save_dashboard(request):
+
+    user = User.objects.filter(username=request.data.get("username")).first()
+    print(f"USERNAME: {request.data.get("username")}")
+    print(f"USUARIO: {user.username}")
+    dashboard_name = request.data.get("dashboard_name")
+    diagrams = request.data.get("diagrams")
+    used_prompts = request.data.get("usedPrompts")
+
+
+    if not dashboard_name or not diagrams:
+        return Response({"error": "Missing dashboard_name or diagrams"}, status=400)
+
+    dashboard = Dashboard.objects.create(
+        name=dashboard_name,
+        diagrams=diagrams,
+        api_information="none",
+        user=user,
+    )
+
+    return Response({"dashboard_id": dashboard.id,"dashboard_name":dashboard_name, "used_prompts":used_prompts, "date":dashboard.date,"dashboard_diagrams":diagrams, "source":"Open AI", "message": "Dashboard saved"}, status=201)
