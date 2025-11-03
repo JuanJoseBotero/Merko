@@ -1,18 +1,24 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-// import {Responsive, WidthProvider} from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import data from "../dashboardjson.json";
 import CompLine from '../Components/DashboardComponents/CompLine';
 import CompBump from '../Components/DashboardComponents/CompBump';
 import CompPie from '../Components/DashboardComponents/CompPie';
 import CompRadar from '../Components/DashboardComponents/CompRadar';
 import "../css/dashboard.css"
 
+interface ResponseProps {
+    dashboard_id : number;
+    dashboard_name : string;
+    used_prompts : string[];
+    date : any;
+    dashboard_diagrams : ChartProps[];
+}
+
 interface ChartProps {
-  type_of_chart: string;
-  chart_data: any;
+    type_of_chart : string;
+    chart_data : any;
 }
 
 // Variable para establecer el esquema de colores
@@ -22,21 +28,41 @@ export default function Dashboard() {
 
   const [location, setLocation] = React.useState(useLocation());  
 
-  const dataa = location.state as {responseData: ChartProps[]};
+  const data : ResponseProps = location.state?.data || null;
 
-  console.log(dataa.responseData);
+  console.log(data.dashboard_diagrams);
 
   // Funcion para seleccionar que grafico usar
-  const chart = (item:ChartProps, id:number) => {
+  const chart = (item:ChartProps, id:number, title:string) => {
     switch(item.type_of_chart) {
       case "Line":
-        return <div key={id} className='h-80 bg-white item-large'><CompLine data={item.chart_data} colors={colors} className="w-1/2"/></div>
+        return <div key={id} className='bg-white item-large'>
+                  <h3 className='text-center pt-3'>{title}</h3>
+                  <div className='h-80'>
+                    <CompLine data={item.chart_data} title={title} colors={colors} className="w-1/2"/>
+                  </div>
+                </div>
       case "Bump":
-        return <div key={id} className='h-80 bg-white item-large'><CompBump key={id} data={item.chart_data} colors={colors} className="w-1/2"/></div>
-      case "pie":
-        return <div key={id} className='h-80 bg-white item-small'><CompPie key={id} data={item.chart_data} colors={colors} className="w-50"/></div>
+        return <div key={id} className='h-90 bg-white item-large'>
+                  <h3 className='text-center pt-3'>{title}</h3>
+                  <div className='h-80'>
+                    <CompBump key={id} title={title} data={item.chart_data} className="w-1/2"/>
+                  </div>
+                </div>
+      case "Pie":
+        return  <div key={id} className='h-90 bg-white item-small'>
+                  <h3 className='text-center pt-3'>{title}</h3>
+                  <div className='h-80'>
+                    <CompPie key={id} title={title} data={item.chart_data} colors={colors} className="w-50"/>
+                  </div>
+                </div>
       case "Radar":
-        return <div key={id} className='h-80 bg-white item-small'><CompRadar key={id} data={item.chart_data} colors={colors} className="w-1/2"/></div>
+        return  <div key={id} className='h-90 bg-white item-small'>
+                  <h3 className='text-center pt-3'>{title}</h3>
+                  <div className='h-80'>
+                    <CompRadar key={id} title={title} data={item.chart_data} colors={colors} className="w-1/2"/>
+                  </div>
+                </div>
     }
   }
 
@@ -47,9 +73,10 @@ export default function Dashboard() {
         Dashboard
       </div>
       <div className='flex flex-col md:flex-row md:justify-between md:flex-wrap  gap-4 m-10'>
-        {data.map((item, id) => (
-          chart(item, id)
-        ))}
+        {data.dashboard_diagrams.map((item : ChartProps, id : number ) => {
+          const title = data.used_prompts[id];
+          return chart(item, id, title);
+        })}
       </div>
     </div>
   )

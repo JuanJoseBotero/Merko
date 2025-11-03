@@ -12,6 +12,20 @@
   background: radial-gradient(125% 125% at 50% 90%, #ffffff 40%, #6ebcfc 150%);
 }
 
+.cool-blue-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* 👈 esto hace que quede detrás */
+  background: #ffffff;
+  background-image: radial-gradient(
+    circle at top center,
+    rgba(70, 130, 180, 0.5),
+    transparent 70%
+  );
+  background-repeat: no-repeat;
+  filter: blur(80px);
+}
+
 /* -------------------- typography -------------------- */
 
 .heading-extrabig {

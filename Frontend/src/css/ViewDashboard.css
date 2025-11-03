@@ -1,0 +1,12 @@
+.background-dashboard {
+  min-height: 100vh;
+  background: #ffffff;
+  background-image: radial-gradient(
+    circle at top center,
+    rgba(70, 130, 180, 0.4),
+    transparent 70%
+  );
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  filter: blur(0px); /* 👈 No pongas blur aquí o se difumina todo el contenido */
+}
