@@ -4,7 +4,7 @@
     "description": "Identify the top importers for specific product types and detail exactly what they're importing over a given period of time.",
     "category": "Import Analysis",
     "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}}.",
-    "output_format": "Return ONLY a valid JSON array formatted as follows: [ { \"type_of_chart\": \"Radar\", \"chart_data\": [ { \"product_type\": \"string (name of imported product type)\", \"importer_1\": number (quantity or relative value), \"importer_2\": number, ... } ] } ]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
+    "output_format": "Return ONLY a valid JSON array formatted as follows: [ { \"type_of_chart\": \"Radar\", \"chart_data\": [ { \"product_type\": \"string (name of imported product type)\", \"importer_1 (name of the first importer)\": number (quantity or relative value), \"importer_2 (name of the second importer)\": number, ... } ] } ]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {
       "product_type": "Type of product analyzed (e.g., electronics).",
       "top_x_number": "Number of main importers analyzed (e.g., 5).",

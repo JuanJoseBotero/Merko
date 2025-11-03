@@ -4,16 +4,15 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,generics, viewsets
 from catalog.models import Prompt
 from .models import Dashboard
 from account.models import User
-
 import unicodedata
 import time
 from pytrends.request import TrendReq
 from pytrends.exceptions import TooManyRequestsError
-
+from .serializers import DashboardSerializer
 
 
 load_dotenv()
@@ -188,3 +187,15 @@ def save_dashboard(request):
     )
 
     return Response({"dashboard_id": dashboard.id,"dashboard_name":dashboard_name, "used_prompts":used_prompts, "date":dashboard.date,"dashboard_diagrams":diagrams, "source":"Open AI", "message": "Dashboard saved"}, status=201)
+
+class DashboardListAPIView(generics.ListAPIView):
+    serializer_class = DashboardSerializer
+    def get_queryset(self):
+        username = self.request.query_params.get("username", None)
+        if not username:
+            return Dashboard.objects.none()
+        user = User.objects.filter(username=username).first()
+        if not user:
+            return Dashboard.objects.none()
+        queryset = Dashboard.objects.filter(user=user)
+        return queryset
