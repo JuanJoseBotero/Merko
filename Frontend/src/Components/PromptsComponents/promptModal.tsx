@@ -116,7 +116,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
         savePayload,
       );
       onClose();
-      navigate("/dashboardV1", { state: { data: dashboard_response.data } });
+      navigate("/dashboard", { state: { data: dashboard_response.data } });
     } else {
       // Limpiar inputs y avanzar
       setValues({});
