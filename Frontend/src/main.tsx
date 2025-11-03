@@ -12,6 +12,8 @@ import RegisterPage from "./pages/RegisterPage";
 import PrivateRoute from "./Components/CommonComponents/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import DashboardV1 from "./pages/DashboardV1";
+import DashboardV2 from "./pages/DashboardV2";
+
 
 import App from "./App";
 import { Link } from "react-router-dom";
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: "dashboardV1",
         element: <DashboardV1 />,
+      },
+      {
+        path: "dashboardV2",
+        element: <DashboardV2 />,
       },
 
     ],
