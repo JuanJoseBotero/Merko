@@ -14,4 +14,6 @@ class DashboardSerializer(serializers.ModelSerializer):
             "date",
             "diagrams",
             "api_information",
+            "used_prompts",
+
         ]
