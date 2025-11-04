@@ -3,8 +3,8 @@
     "title": "Import Analyzer by Product and Period",
     "description": "Identify the top importers for specific product types and detail exactly what they're importing over a given period of time.",
     "category": "Import Analysis",
-    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}}.",
-    "output_format": "Return ONLY a valid JSON array formatted as follows: [ { \"diagram_name\": name of the diagram ,\"type_of_chart\": \"Radar\", \"chart_data\": [ { \"product_type\": \"string (name of imported product type)\", \"importer_1 (name of the first importer)\": number (quantity or relative value), \"importer_2 (name of the second importer)\": number, ... } ] } ]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
+    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major third-party or retail importers over the last {{time_period}}. For each importer, identify the specific product types they import within the category {{category}} Exclude importers that are also the original equipment manufacturers (OEMs).",
+    "output_format": "Return ONLY a valid JSON array formatted as follows: [ { \"diagram_name\": name of the diagram, \"type_of_chart\": \"Radar\", \"chart_data\": [ { \"product_type\": \"string (name of imported product type)\", \"Importer Name 1\": number (quantity or relative value), \"Importer Name 2\": number, ... } ] } ]. Use the actual names of the importers as keys, not placeholders like Importer A, B, etc. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {
       "product_type": "Type of product analyzed (e.g., electronics).",
       "top_x_number": "Number of main importers analyzed (e.g., 5).",
@@ -31,8 +31,8 @@
     "title": "Analysis of a product's import value",
     "description": "Provide the information on the import value of a specific product from the top X largest importers over a defined period of time.",
     "category": "Import Analysis",
-    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the import volume and their corresponding value in {{metric}}",
-    "output_format": "Return ONLY a valid JSON array formatted as follows: [ { \"diagram_name\": name of the diagram ,\"type_of_chart\": \"Bump\", \"chart_data\": [ { \"id\": \"string (importer's name)\", \"data\": [ { \"x\": \"string (time or period)\", \"y\": number (ranking or value position) } ] } ] } ]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
+    "prompt_template": "Analyze the market for {{product_type}} and provide a detailed breakdown of the {{top_x_number}} major importers over the last {{time_period}}. For each importer, identify the import volume value in {{metric}}",
+    "output_format": "Return ONLY a valid JSON array formatted as follows: [ { \"diagram_name\": name of the diagram ,\"type_of_chart\": \"Line\", \"chart_data\": [ { \"id\": \"string (importer's name)\", \"data\": [ { \"x\": \"string (time or period)\", \"y\": number (value of the vimport volume in the metric given) } ] } ] } ]. If the user's prompt includes a section with \"additional_information:\", include a key named \"additional_information\" with the requested details as a string. Do not include this key otherwise.",
     "variables": {
       "product_type": "Product analyzed (e.g., coffee beans).",
       "top_x_number": "Number of importers analyzed (e.g., 10).",
