@@ -11,10 +11,27 @@ import unicodedata
 import time
 from pytrends.request import TrendReq
 from pytrends.exceptions import TooManyRequestsError
+from django.http import JsonResponse
+from .integrations.hs_lookup import search_hs_code
+from rest_framework.views import APIView
+from .integrations.dashboard import get_dashboard
 
 
 load_dotenv()
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
+def search_hs_view(request):
+    query = request.GET.get("q", "")
+    data = search_hs_code(query)
+    return JsonResponse(data, safe=False)
+
+class CurrentDashboardView(APIView):
+    def get(self, request):
+        cmd_code = request.GET.get("cmd_code", "0901")
+
+        data = get_dashboard(cmd_code)
+        return Response(data, status=status.HTTP_200_OK)
+
 
 def normalize_country(country: str) -> str:
     return ''.join(

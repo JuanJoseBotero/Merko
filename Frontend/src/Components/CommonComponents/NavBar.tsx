@@ -42,6 +42,9 @@ export default function NavBar() {
           <li>
             <Link to="/contact">Contact</Link>
           </li>
+          <li>
+            <Link to="/dashboard/current">Current Dashboard</Link>
+          </li>
 
           {!isLoggedIn ? (
             <>
