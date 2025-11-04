@@ -36,7 +36,7 @@ export default function ViewDashboards() {
             }
 
             const response = await axios.get(
-            `http://127.0.0.1:8000/api/analysis/dashboards/?username=${username}`
+            `http://34.30.157.238:8000/api/analysis/dashboards/?username=${username}`
             );
             setDashboards(response.data);
             console.log(response.data);

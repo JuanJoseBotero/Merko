@@ -43,7 +43,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
       try {
         const responses = await Promise.all(
           prompts.map((p) =>
-            axios.get(`http://127.0.0.1:8000/api/catalog/prompts/${p.id}/`)
+            axios.get(`http://34.30.157.238:8000/api/catalog/prompts/${p.id}/`)
           )
         );
         setPromptList(responses.map((r) => r.data));
@@ -91,7 +91,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
   try {
     setLoading(true);
     const response = await axios.post(
-      "http://127.0.0.1:8000/api/analysis/request-information-agent/",
+      "http://34.30.157.238:8000/api/analysis/request-information-agent/",
       payload,
     );
     setLoading(false);
@@ -112,7 +112,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
         username:username
       };
       const dashboard_response = await axios.post(
-        "http://127.0.0.1:8000/api/analysis/save-dashboard/",
+        "http://34.30.157.238:8000/api/analysis/save-dashboard/",
         savePayload,
       );
       onClose();
