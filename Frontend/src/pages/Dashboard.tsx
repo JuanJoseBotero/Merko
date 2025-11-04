@@ -28,7 +28,9 @@ export default function Dashboard() {
 
   const [location, setLocation] = React.useState(useLocation());  
 
-  const data : ResponseProps = location.state?.data || null;
+  const data : any = location.state?.data || null;
+
+  console.log(data)
 
   console.log(data.dashboard_diagrams);
 
@@ -73,10 +75,11 @@ export default function Dashboard() {
         Dashboard
       </div>
       <div className='flex flex-col md:flex-row md:justify-between md:flex-wrap  gap-4 m-10'>
-        {data.dashboard_diagrams.map((item : ChartProps, id : number ) => {
-          const title = data.used_prompts[id];
+        {data.dashboard_diagrams.map((item: ChartProps, id: number) => {
+          const title = data.used_prompts?.[id] || "No title available";
           return chart(item, id, title);
         })}
+
       </div>
     </div>
   )
