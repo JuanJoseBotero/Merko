@@ -17,6 +17,7 @@ interface ResponseProps {
 }
 
 interface ChartProps {
+    diagram_name : string;
     type_of_chart : string;
     chart_data : any;
 }
@@ -29,10 +30,8 @@ export default function Dashboard() {
   const [location, setLocation] = React.useState(useLocation());  
 
   const data : any = location.state?.data || null;
-
-  console.log(data)
-
-  console.log(data.dashboard_diagrams);
+  console.log("Dashboard data received:");
+  console.log(data.dashboard_diagrams[0].diagram_name);
 
   // Funcion para seleccionar que grafico usar
   const chart = (item:ChartProps, id:number, title:string) => {
@@ -76,7 +75,7 @@ export default function Dashboard() {
       </div>
       <div className='flex flex-col md:flex-row md:justify-between md:flex-wrap  gap-4 m-10'>
         {data.dashboard_diagrams.map((item: ChartProps, id: number) => {
-          const title = data.used_prompts?.[id] || "No title available";
+          const title = item?.diagram_name || "No title available";
           return chart(item, id, title);
         })}
 
