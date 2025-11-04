@@ -8,6 +8,7 @@ class Dashboard(models.Model):
     diagrams = models.JSONField(blank=True, null=True, default=dict)
     api_information = models.JSONField(blank=True, null=True, default=dict)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="dashboards")
-
+    used_prompts = models.JSONField(blank=True, null=True, default=dict)
+    
     def __str__(self):
         return self.name

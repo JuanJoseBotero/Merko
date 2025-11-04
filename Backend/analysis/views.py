@@ -174,6 +174,8 @@ def save_dashboard(request):
     dashboard_name = request.data.get("dashboard_name")
     diagrams = request.data.get("diagrams")
     used_prompts = request.data.get("usedPrompts")
+    print(f"used_prompts: {used_prompts}")
+
 
 
     if not dashboard_name or not diagrams:
@@ -183,6 +185,7 @@ def save_dashboard(request):
         name=dashboard_name,
         diagrams=diagrams,
         api_information="none",
+        used_prompts=used_prompts,
         user=user,
     )
 
