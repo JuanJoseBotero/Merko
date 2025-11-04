@@ -18,6 +18,9 @@ import DashboardV2 from "./pages/DashboardV2";
 import App from "./App";
 import { Link } from "react-router-dom";
 
+// Nuevo
+import CurrentDashboard from "./pages/CurrentDashboard"
+
 const router = createBrowserRouter([
   {
     // Ruta en la que va a estar la estructura principal como la navbar
@@ -66,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <Dashboard/>,
+      },
+      {
+        path: "dashboard/current",
+        element: <CurrentDashboard/>,
       },
       {
         path: "dashboardV1",

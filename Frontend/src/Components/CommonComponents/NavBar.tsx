@@ -73,6 +73,9 @@ export default function NavBar() {
                     Profile
                   </Link>
                 </li>
+          <li>
+            <Link to="/dashboard/current">Current Dashboard</Link>
+          </li>
                 {!isLoggedIn ? (
                 <>
                   <li className="p-2">
