@@ -13,6 +13,7 @@ import PrivateRoute from "./Components/CommonComponents/PrivateRoute";
 import Dashboard from "./pages/Dashboard";
 import DashboardV1 from "./pages/DashboardV1";
 import ViewDashboards from "./pages/ViewDashboards";
+import DashboardV2 from "./pages/DashboardV2";
 
 import App from "./App";
 import { Link } from "react-router-dom";
@@ -73,7 +74,11 @@ const router = createBrowserRouter([
       {
         path: "view-dashboards",
         element: <PrivateRoute><ViewDashboards/></PrivateRoute>,
-      }
+      },
+      {
+        path: "dashboardV2",
+        element: <DashboardV2 />,
+      },
 
     ],
     ErrorBoundary: () => {
