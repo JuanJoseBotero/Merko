@@ -22,7 +22,7 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      const response = await fetch("http://34.30.157.238:8000/api/register/", {
+      const response = await fetch("http://34.31.138.222:8000/api/register/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

@@ -11,7 +11,7 @@ export default function Catalog() {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    fetch("http://34.30.157.238:8000/api/catalog/categories/")
+    fetch("http://34.31.138.222:8000/api/catalog/categories/")
       .then((res) => res.json())
       .then((data) => setCategories(data)) 
       .catch((err) => console.error("Error fetching categories:", err));
