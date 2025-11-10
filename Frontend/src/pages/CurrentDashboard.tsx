@@ -6,7 +6,7 @@ import HSCodeSearchForm from "../Components/CurrentComponents/HSCodeSearchForm";
 
 export default function CurrentDashboard() {
   const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
 
@@ -30,7 +30,21 @@ export default function CurrentDashboard() {
       </div>
     );
   }
-  if (loading) return <div><b>Loading Dashboard...</b></div>;
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+        <div className="loader">
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__bar"></div>
+          <div className="loader__ball"></div>
+        </div>
+        <p className="heading-3 text-white">This will take few minutes</p>
+      </div>
+    );
+  }
   if (error) return <div style={{ color: "red" }}><b>Error:</b> {error}</div>;
   if (!data) return <div><b>No data available</b></div>;
 
