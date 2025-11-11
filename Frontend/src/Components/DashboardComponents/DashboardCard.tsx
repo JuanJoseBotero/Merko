@@ -1,4 +1,4 @@
-import React from 'react'
+
 import "react-resizable/css/styles.css";
 import { useState } from 'react';
 import CompLine from './CompLine';
@@ -42,6 +42,8 @@ export default function DashboardCard( {id, item, title, colors} : {id: number, 
                 return <CompBar key={id} data={item.chart_data} colors={colors} className="w-1/2"/>;
         }
     }
+
+    console.log(item);
 
   return (
     <>

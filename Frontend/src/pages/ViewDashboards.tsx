@@ -37,6 +37,7 @@ export default function ViewDashboards() {
             `http://127.0.0.1:8000/api/analysis/dashboards/?username=${username}`
             );
             setDashboards(response.data);
+            console.log("Fetched dashboards:");
             console.log(response.data);
         } catch (err) {
             setError("Error fetching dashboards");
