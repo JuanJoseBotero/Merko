@@ -62,16 +62,16 @@ export default function HorizontalBarChart({
           padding={0.3}
           colors={({ index }) =>
             [
-              "#3288BD",
-              "#D53E4F",
-              "#F46D43",
-              "#FDAE61",
               "#FEE08C",
-              "#E6F598",
-              "#ABDDA4",
-              "#66C2A5",
-              "#9E0142",
-              "#5E4FA2"
+              "#012A4A",
+              "#01497C",
+              "#2A6F97",
+              "#2C7DA0",
+              "#468FAF",
+              "#61A5C2",
+              "#61A5C2",
+              "#89C2D9",
+              "#A9D6E5",
             ][index % 10]
           }
           axisTop={null}
@@ -95,7 +95,7 @@ export default function HorizontalBarChart({
           }}
           labelSkipWidth={12}
           labelSkipHeight={12}
-          labelTextColor={{ from: "color", modifiers: [["darker", 2.5]] }}
+          labelTextColor="#ffffff"
           theme={{
             axis: {
               legend: { text: { fontWeight: "bold", fontSize: 15 } },

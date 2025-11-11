@@ -2,7 +2,7 @@ import React from 'react'
 import { ResponsivePie } from '@nivo/pie'
 
 export default function CompPie( data:any ) {
-  console.log(data);
+  
   return (
     <ResponsivePie /* or Pie for fixed dimensions */
         data={data.data}
