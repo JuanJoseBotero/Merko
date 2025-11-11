@@ -5,6 +5,7 @@ import CompLine from './CompLine';
 import CompBump from './CompBump';
 import CompPie from './CompPie';
 import CompRadar from './CompRadar';
+import CompBar from './CompBar';
 import "../../css/dashboard.css"
 
 interface ChartProps {
@@ -18,7 +19,7 @@ export default function DashboardCard( {id, item, title, colors} : {id: number, 
     const [isActive, setIsActive] = useState<'Chart' | 'Resume'>('Chart');
 
     const size = (item : ChartProps) => {
-        if (item.type_of_chart === "Line" || item.type_of_chart === "Bump") {
+        if (item.type_of_chart === "Line" || item.type_of_chart === "Bump" || item.type_of_chart === "Bar") {
             return 'large';
         } 
         else {
@@ -29,13 +30,15 @@ export default function DashboardCard( {id, item, title, colors} : {id: number, 
     const components = (item : ChartProps) => {
         switch(item.type_of_chart) {
             case "Line":
-                return <CompLine data={item.chart_data} title={title} colors={colors} className="w-1/2"/>;
+                return <CompLine key={id} data={item.chart_data} colors={colors} className="w-1/2"/>;
             case "Bump":
-                return <CompBump key={id} title={title} data={item.chart_data} className="w-1/2"/>;
+                return <CompBump key={id} data={item.chart_data} colors={colors} className="w-1/2"/>;
             case "Pie":
-                return <CompPie key={id} title={title} data={item.chart_data} colors={colors} className="w-50"/>;
+                return <CompPie key={id} data={item.chart_data} colors={colors} className="w-50"/>;
             case "Radar":
-                return <CompRadar key={id} title={title} data={item.chart_data} colors={colors} className="w-1/2"/>;
+                return <CompRadar key={id} data={item.chart_data} colors={colors} className="w-1/2"/>;
+            case "Bar":
+                return <CompBar key={id} data={item.chart_data} colors={colors} className="w-1/2"/>;
         }
     }
 
