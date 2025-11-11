@@ -1,8 +1,7 @@
-import React from 'react'
 import { ResponsiveLine } from '@nivo/line'
 
 export default function CompLine( data:any ) {
-  console.log(data);
+  
   return (
     <ResponsiveLine
         data={data.data}

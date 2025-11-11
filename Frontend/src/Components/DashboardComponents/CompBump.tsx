@@ -2,6 +2,7 @@ import React from 'react'
 import { ResponsiveBump } from '@nivo/bump'
 
 export default function CompBump(data:any) {
+  
   return (
     <ResponsiveBump /* or Bump for fixed dimensions */
         data={data.data}

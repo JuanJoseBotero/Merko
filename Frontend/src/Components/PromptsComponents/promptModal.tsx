@@ -111,6 +111,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
         usedPrompts: [...accumulatedUsedPrompts,currentPrompt.title],
         username:username
       };
+      console.log("Saving dashboard with payload:", savePayload);
       const dashboard_response = await axios.post(
         "http://34.31.138.222:8000/api/analysis/save-dashboard/",
         savePayload,

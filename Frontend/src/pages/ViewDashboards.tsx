@@ -1,9 +1,7 @@
-import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import data from '../dashboards.json'
-import IconChart from '../images/dashboards.png'
+import IconChart from '../Images/dashboards.png'
 import '../css/ViewDashboard.css'
 import { Link, useNavigate} from 'react-router-dom';
 

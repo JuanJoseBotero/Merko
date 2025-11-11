@@ -26,3 +26,23 @@
         flex: 1 1 48%;
     }
 }
+
+
+.button-chart {
+    background-color: #e9e7e7;
+    padding: 0.5rem 20px; /* p-2 */;
+    border: none;
+    border-radius: 10px 10px 0 0; /* rounded-tl-lg rounded-tr-lg */
+    cursor: pointer;
+    z-index: 0;
+}
+
+.active{
+    transition: 0.3s;
+    background-color: #ffffff; /* bg-amber-400 */
+    scale: 1.1;
+}
+
+.inactive{
+
+}
