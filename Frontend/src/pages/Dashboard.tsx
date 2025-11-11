@@ -21,16 +21,15 @@ interface ChartProps {
 
 // Variable para establecer el esquema de colores
 const colors = [
-    "#3288BD",
-    "#D53E4F",
-    "#F46D43",
-    "#FDAE61",
-    "#FEE08C",
-    "#E6F598",
-    "#ABDDA4",
-    "#66C2A5",
-    "#9E0142",
-    "#5E4FA2",
+    "#012A4A",
+    "#01497C",
+    "#2A6F97",
+    "#2C7DA0",
+    "#468FAF",
+    "#61A5C2",
+    "#61A5C2",
+    "#89C2D9",
+    "#A9D6E5",
   ];
 
 export default function Dashboard() {
