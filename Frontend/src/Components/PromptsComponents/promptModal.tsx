@@ -97,7 +97,8 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
     setLoading(false);
 
     // Añadir respuesta actual al acumulado
-    const currentResult = response.data.result; // según cómo respondas backend
+    const currentResult = response.data.result;
+      console.log("resume", currentResult.resume);
     setAccumulatedResults(prev => [...prev, currentResult]);
     setAccumulatedUsedPrompts(prev => [...prev, currentPrompt.title]);
 

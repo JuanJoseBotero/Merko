@@ -22,7 +22,7 @@ const PromptListPage: React.FC = () => {
   useEffect(() => {
     if (!categoryId) return;
 
-    fetch(`http://34.31.138.222:8000/api/catalog/prompts/?category=${categoryId}`)
+    fetch(`http://127.0.0.1:8000/api/catalog/prompts/?category=${categoryId}`)
       .then((res) => res.json()) // Convertir la respuesta a JSON
       .then((data) => setPrompts(data)) // Guardar los prompts en el estado
       .catch((err) => console.error(err)); // Mostrar error en consola si falla
