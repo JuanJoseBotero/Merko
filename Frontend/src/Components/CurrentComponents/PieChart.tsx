@@ -17,16 +17,15 @@ export default function PieChart({ title, data }: PieChartProps) {
     }));
 
   const palette = [
-    "#3288BD",
-    "#D53E4F",
-    "#F46D43",
-    "#FDAE61",
-    "#FEE08C",
-    "#E6F598",
-    "#ABDDA4",
-    "#66C2A5",
-    "#9E0142",
-    "#5E4FA2",
+    "#012A4A",
+              "#01497C",
+              "#2A6F97",
+              "#2C7DA0",
+              "#468FAF",
+              "#61A5C2",
+              "#61A5C2",
+              "#89C2D9",
+              "#A9D6E5",
   ];
 
   return (
@@ -54,6 +53,7 @@ export default function PieChart({ title, data }: PieChartProps) {
           data={formatted}
           margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
           innerRadius={0.5}
+
           padAngle={1.5}
           cornerRadius={3}
           colors={palette}

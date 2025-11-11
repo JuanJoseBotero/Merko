@@ -19,7 +19,18 @@ interface ChartProps {
 }
 
 // Variable para establecer el esquema de colores
-const colors = { scheme: 'tableau10' }
+const colors = [
+    "#3288BD",
+    "#D53E4F",
+    "#F46D43",
+    "#FDAE61",
+    "#FEE08C",
+    "#E6F598",
+    "#ABDDA4",
+    "#66C2A5",
+    "#9E0142",
+    "#5E4FA2",
+  ];
 
 export default function Dashboard() {
 
