@@ -1,9 +1,7 @@
-import React from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
-import data from '../dashboards.json'
-import IconChart from '../images/dashboards.png'
+import IconChart from '../Images/dashboards.png'
 import '../css/ViewDashboard.css'
 import { Link, useNavigate} from 'react-router-dom';
 
@@ -36,7 +34,7 @@ export default function ViewDashboards() {
             }
 
             const response = await axios.get(
-            `http://127.0.0.1:8000/api/analysis/dashboards/?username=${username}`
+            `http://34.31.138.222:8000/api/analysis/dashboards/?username=${username}`
             );
             setDashboards(response.data);
             console.log(response.data);

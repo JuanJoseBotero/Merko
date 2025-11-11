@@ -17,7 +17,7 @@ export default function CurrentDashboard() {
     setError(null);
 
     axios
-      .get(`http://127.0.0.1:8000/api/analysis/current-dashboard-view/?cmd_code=${selectedCode}`)
+      .get(`http://34.31.138.222:8000/api/analysis/current-dashboard-view/?cmd_code=${selectedCode}`)
       .then((res) => setData(res.data))
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));

@@ -6,7 +6,7 @@ import CompBump from './CompBump';
 import CompPie from './CompPie';
 import CompRadar from './CompRadar';
 import CompBar from './CompBar';
-import "../../css/dashboard.css"
+import "../../css/Dashboard.css"
 
 interface ChartProps {
     diagram_name : string;

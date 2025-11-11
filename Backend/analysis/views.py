@@ -145,7 +145,7 @@ def get_additional_data(prompt_id: int, variables: dict) -> str:
         except TooManyRequestsError:
             print("TooManyRequestsError")
             data = ""
-        print(f"🔍 Trends info for prompt {prompt_id}:\n{data}\n")
+        print(f'🔍 Trends info for prompt {prompt_id}:\n{data}\n')
         return data
                 
 
@@ -177,8 +177,8 @@ def request_information_agent(request) -> Response:
     response_content = chat_completion.choices[0].message.content
     parsed_json_response = json.loads(response_content)
 
-    print(f"COMPLETE PROMPT: {complete_prompt}")
-    print(f"RESPONSE: {response_content}")
+    print(f'COMPLETE PROMPT: {complete_prompt}')
+    print(f'RESPONSE: {response_content}')
 
     return Response({"result": parsed_json_response}, status=200)
 
@@ -186,12 +186,12 @@ def request_information_agent(request) -> Response:
 def save_dashboard(request):
 
     user = User.objects.filter(username=request.data.get("username")).first()
-    print(f"USERNAME: {request.data.get("username")}")
-    print(f"USUARIO: {user.username}")
+    print(f'USERNAME: {request.data.get("username")}')
+    print(f'USUARIO: {user.username}')
     dashboard_name = request.data.get("dashboard_name")
     diagrams = request.data.get("diagrams")
     used_prompts = request.data.get("usedPrompts")
-    print(f"used_prompts: {used_prompts}")
+    print(f'used_prompts: {used_prompts}')
 
 
 
