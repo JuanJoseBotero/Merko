@@ -42,7 +42,7 @@ export default function PromptsPage() {
 
   // Cargar prompts
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/catalog/prompts/")
+    fetch("http://34.31.138.222:8000/api/catalog/prompts/")
       .then((res) => res.json())
       .then((data) => {
         setPrompts(data);
@@ -53,7 +53,7 @@ export default function PromptsPage() {
 
   // Cargar categorías
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/catalog/categories/")
+    fetch("http://34.31.138.222:8000/api/catalog/categories/")
       .then((res) => res.json())
       .then((data) => setCategories(data))
       .catch((err) => console.error("Error fetching categories:", err));

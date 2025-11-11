@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response = await fetch("http://127.0.0.1:8000/api/login/", {
+    const response = await fetch("http://34.31.138.222:8000/api/login/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
