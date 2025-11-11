@@ -13,7 +13,6 @@ interface ResponseProps {
 }
 
 interface ChartProps {
-    resume?: string;
     diagram_name : string;
     type_of_chart : string;
     chart_data : any;
