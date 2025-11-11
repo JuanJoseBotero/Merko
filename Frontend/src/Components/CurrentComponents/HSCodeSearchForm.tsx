@@ -12,7 +12,7 @@ export default function HSCodeSearchForm({ onSelect }: { onSelect: (code: string
     }
     const delayDebounce = setTimeout(() => {
       axios
-        .get("http://127.0.0.1:8000/api/analysis/search-hs/", { params: { q: query } })
+        .get("http://34.31.138.222:8000/api/analysis/search-hs/", { params: { q: query } })
         .then((res) => setResults(res.data))
         .catch(() => setResults([]));
     }, 300);
