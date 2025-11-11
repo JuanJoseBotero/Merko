@@ -76,7 +76,7 @@ export default function PromptParameterizationPage() {
 
       // Realizar una solicitud POST al backend con el prompt construido y el título
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/analysis/request-information-agent/",
+        "http://34.31.138.222:8000/api/analysis/request-information-agent/",
         {
           prompt: previewPrompt,
           title: prompt.title,
