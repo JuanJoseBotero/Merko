@@ -12,6 +12,7 @@ interface ChartProps {
     diagram_name : string;
     type_of_chart : string;
     chart_data : any;
+    resume: string;
 }
 
 export default function DashboardCard( {id, item, title, colors} : {id: number, item: ChartProps, title: string, colors: any} ) {
@@ -51,8 +52,8 @@ export default function DashboardCard( {id, item, title, colors} : {id: number, 
             </div>
             <div className={`absolute inset-0 w-full backdrop-blur-sm z-10 transition-all duration-300 ${isActive === 'Chart' ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
                 <div className='w-4/5 mx-auto text-center space-y-5 flex flex-col justify-start overflow-y-auto max-h-[90%] py-10'>
-                    <h2 className='heading-3'>IA resume</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla mollis erat in eros scelerisque, id maximus justo porta. Quisque sit amet erat tempor, maximus sem sed, mattis felis. Vestibulum ex ex, pulvinar vitae nunc sit amet, porttitor maximus quam. Integer dapibus odio diam, at molestie sapien consequat eget. Fusce lobortis euismod mauris eget pharetra. Sed aliquam velit quis tellus efficitur, ut congue velit luctus. Quisque rutrum sodales neque, at imperdiet dolor.</p>
+                    <h2 className='heading-3'>{item.diagram_name} — Summary</h2>
+                    <p>{item.resume ? item.resume : "No summary available for this chart."}</p>
                 </div>
             </div>
             <h3 className='text-center pt-3 font-bold'>{title}</h3>

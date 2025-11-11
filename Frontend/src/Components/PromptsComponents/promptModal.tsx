@@ -43,7 +43,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
       try {
         const responses = await Promise.all(
           prompts.map((p) =>
-            axios.get(`http://34.31.138.222:8000//api/catalog/prompts/${p.id}/`)
+            axios.get(`http://127.0.0.1:8000/api/catalog/prompts/${p.id}/`)
           )
         );
         setPromptList(responses.map((r) => r.data));
@@ -91,13 +91,14 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
   try {
     setLoading(true);
     const response = await axios.post(
-      "http://34.31.138.222:8000//api/analysis/request-information-agent/",
+      "http://127.0.0.1:8000/api/analysis/request-information-agent/",
       payload,
     );
     setLoading(false);
 
     // Añadir respuesta actual al acumulado
-    const currentResult = response.data.result; // según cómo respondas backend
+    const currentResult = response.data.result;
+      console.log("resume", currentResult.resume);
     setAccumulatedResults(prev => [...prev, currentResult]);
     setAccumulatedUsedPrompts(prev => [...prev, currentPrompt.title]);
 
@@ -113,7 +114,7 @@ export default function PromptModal({ prompts, onClose }: PromptModalProps) {
       };
       console.log("Saving dashboard with payload:", savePayload);
       const dashboard_response = await axios.post(
-        "http://34.31.138.222:8000//api/analysis/save-dashboard/",
+        "http://127.0.0.1:8000/api/analysis/save-dashboard/",
         savePayload,
       );
       onClose();

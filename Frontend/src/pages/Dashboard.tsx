@@ -16,6 +16,7 @@ interface ChartProps {
     diagram_name : string;
     type_of_chart : string;
     chart_data : any;
+    resume: string;
 }
 
 // Variable para establecer el esquema de colores
